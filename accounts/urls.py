@@ -5,8 +5,11 @@ from django.conf import settings
 from . import views
 
 
+
+
 urlpatterns = [
     path("signup/", views.SignupView.as_view()),
+    path("login/",views.CustomTokenObtainView.as_view()),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
