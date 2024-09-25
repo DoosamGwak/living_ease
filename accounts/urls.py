@@ -13,6 +13,7 @@ urlpatterns = [
     path("login/",views.CustomTokenObtainView.as_view(), name="login"),
     path("refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("<str:username>/",views.UserProfileView.as_view(),name="user_profile"),
+    path("",views.UserDeleteView.as_view(), name="user_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
