@@ -1,13 +1,11 @@
 from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, ListCreateAPIView,RetrieveUpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from .serializers import UserSerializer, CustomTokenObtainPairSerializer,UserPofileSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
 from rest_framework import status
-from django.contrib.auth import authenticate
-from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class SignupView(CreateAPIView):
@@ -39,7 +37,14 @@ class CustomTokenObtainView(TokenObtainPairView):
         )
 
 
-class ProfileUpdateView(RetrieveUpdateAPIView):
+class UserProfileView(RetrieveAPIView):
     queryset=User.objects.all()
     serializer_class=UserPofileSerializer
-    pass
+    
+    def get_object(self):
+        return self.request.user
+
+
+class UserUpdateView(UpdateAPIView):
+    queryset=User.objects.all()
+    serializer_class=UserSerializer   
