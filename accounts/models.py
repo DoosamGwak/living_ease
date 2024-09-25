@@ -10,9 +10,9 @@ class User(AbstractUser):
     
     GENDER_CHOICES = (("M", "Male"), ("F", "Female"))
     email = models.EmailField(unique=True)
-    nickname = models.CharField(max_length=20)
+    nickname = models.CharField(max_length=20,null=True,blank=True)
     name =models.CharField(max_length=15, blank=True)
-    age = models.IntegerField()
+    age = models.IntegerField(null=True,blank=True)
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES,  default="N",blank=True)
     profile_image = models.ImageField(
         upload_to="profile_images/", null=True, blank=True
