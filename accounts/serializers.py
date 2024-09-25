@@ -31,10 +31,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         username = attrs.get("username")
         password = attrs.get("password")
         user = authenticate(username=username, password=password)
-
-        if user is None:
-            raise serializers.ValidationError("해당 유저네임은 없습니다.")
-
         return data
 
     def get_token(self, user):
@@ -46,3 +42,4 @@ class UserPofileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["username", "name", "email", "profile_image","nickname",  "age", "gender","joined_at"]
+
