@@ -24,7 +24,7 @@ class PetCode(models.Model):
 
 
 class AIHistory(models.Model):
-    PID = models.ForeignKey(PetCode, related_name="petcodes")
-    UID = models.ForeignKey(get_user_model, related_name="users")
+    PID = models.ForeignKey(PetCode, on_delete=models.DO_NOTHING, related_name="petcodes")
+    UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="users")
     question = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)
