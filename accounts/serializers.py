@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
             nickname=validated_data["nickname"],
             email=validated_data["email"],
             gender=validated_data["gender"],
+            age=validated_data["age"],
         )
         user.set_password(validated_data["password"])
         user.save()
@@ -39,3 +40,4 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def get_token(self, user):
         token = super().get_token(user)
         return token
+    
