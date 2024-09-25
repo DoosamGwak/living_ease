@@ -50,3 +50,23 @@ class UserProfileView(RetrieveUpdateAPIView):
 
 class UserDeleteView(DestroyAPIView):
     queryset=User.objects.all()
+    
+    def get_object(self):
+        return self.request.user
+    
+    def delete(self, request, *args, **kwargs):
+        user = self.get_object()
+        password = request.data.get("password")
+        
+        if user.check_password(password):
+            return self.destroy(request, *args, **kwargs)
+        
+        else:
+            return Response(
+            {"detail": "삭제 권한이 없습니다."},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+        
+
+        
+  
