@@ -41,3 +41,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
         return token
     
+
+class UserPofileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ["username", "name", "nickname", "email", "age", "gender","joined_at"]
