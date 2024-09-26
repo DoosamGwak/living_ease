@@ -10,10 +10,11 @@ from rest_framework_simplejwt.views import TokenRefreshView
 
 urlpatterns = [
     path("signup/", views.SignupView.as_view(), name="signup"),
-    path("login/",views.CustomTokenObtainView.as_view(), name="login"),
+    path("login/",views.LoginView.as_view(), name="login"),
+    path("logout/",views.LogoutView.as_view(), name="login"),
     path("refresh/", TokenRefreshView.as_view(), name="refresh"),
     path("profile/<str:username>/",views.UserProfileView.as_view(),name="user_profile"),
-    path("profile/<str:username>/delete/",views.UserDeleteView.as_view(), name="user_delete"),
+    path("delete/",views.UserDeleteView.as_view(), name="user_delete"),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

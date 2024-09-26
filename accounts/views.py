@@ -1,4 +1,3 @@
-from django.shortcuts import get_object_or_404, render
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
@@ -7,12 +6,14 @@ from .serializers import (
     UserPofileSerializer,
     UserDeleteSerializer,
 )
-from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework.exceptions import ValidationError
+from rest_framework_simplejwt.exceptions import TokenError
 
 
 class SignupView(CreateAPIView):
@@ -25,7 +26,7 @@ class SignupView(CreateAPIView):
         user.save()
 
 
-class CustomTokenObtainView(APIView):
+class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -47,31 +48,35 @@ class CustomTokenObtainView(APIView):
         )
 
 
+class LogoutView(APIView):
+    def post(self, request):
+
+        data = request.data
+        if not "refresh" in data:
+            raise ValidationError({"msg": "refresh_token 값을 입력해주세요."})
+        try:
+            refresh_token = RefreshToken(data["refresh"])
+            refresh_token.blacklist()
+        except TokenError:
+            raise ValidationError(
+                {"msg": "refresh_token값이 유효하지 않습니다. 다시 입력해주세요"}
+            )
+        return Response(
+            {"msg": "로그아웃에 성공하였습니다"}, status=status.HTTP_200_OK
+        )
+
+
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
 
 
 class UserDeleteView(UpdateAPIView):
-    queryset = User.objects.all()
     serializer_class = UserDeleteSerializer
-    lookup_field = "username"
 
-    # def get_object(self):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+    def get_object(self):
 
-    #     assert lookup_url_kwarg in self.kwargs, (
-    #         self.__class__.__name__,
-    #         lookup_url_kwarg,
-    #     )
+        return self.request.user
 
-    #     filter_kwargs = {self.lookup_field: self.kwargs[lookup_url_kwarg]}
-    #     obj = get_object_or_404(queryset, **filter_kwargs)
-    #     obj.is_active = False
-
-    #     self.check_object_permissions(self.request, obj)
-
-    #     return obj
     def perform_update(self, serializer):
-        serializer.save(is_active=False)
+        user = serializer.save(is_active=False)
