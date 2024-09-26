@@ -10,6 +10,13 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Answer(models.Model):
+    QID = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="q_answers")
+    UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="u_answers")
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class PetCategory(models.Model):
     type = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -24,7 +31,7 @@ class PetCode(models.Model):
 
 
 class AIHistory(models.Model):
-    PID = models.ForeignKey(PetCode, on_delete=models.DO_NOTHING, related_name="petcodes")
     UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="users")
     question = models.JSONField()
+    answer = models.JSONField()
     created_at = models.DateTimeField(auto_now_add=True)

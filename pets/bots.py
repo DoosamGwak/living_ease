@@ -32,7 +32,7 @@ def pet_match_bot(datas):
     """
     
     completion = CLIENT.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4o-mini",
         messages=[
             {
                 "role": "system",
@@ -42,10 +42,9 @@ def pet_match_bot(datas):
                 "role": "user",
                 "content": str(datas),
             },
-            
         ],
+        response_format={"type": "json_object"}
     )
-
     
 
     return completion.choices[0].message
