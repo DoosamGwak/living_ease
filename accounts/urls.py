@@ -6,8 +6,6 @@ from . import views
 from rest_framework_simplejwt.views import TokenRefreshView
 
 
-
-
 urlpatterns = [
     path("signup/", views.SignupView.as_view(), name="signup"),
     path("login/",views.LoginView.as_view(), name="login"),
@@ -19,4 +17,3 @@ urlpatterns = [
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
->>>>>>> dev
