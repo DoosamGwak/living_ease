@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 import json
 from .models import Question
@@ -14,7 +14,7 @@ class QuestionListView(ListAPIView):
 
 
 class AIRecoomand(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def post(self, request):
-        match = pet_match_bot(request.data)
+        match = pet_match_bot(request.data, request.user)
         return Response(json.loads(match.content))

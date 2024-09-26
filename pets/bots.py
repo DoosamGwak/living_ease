@@ -1,13 +1,28 @@
 from django.conf import settings
 from openai import OpenAI
 import json
-from .models import PetCode
+from .models import PetCode, Answer, AIHistory, Question
+from accounts.models import User
 
 CLIENT = OpenAI(api_key=settings.OPENAI_API_KEY)
 
-def pet_match_bot(datas):
+def answer_insertt(qustions, UID):
+    for key,data  in qustions.items():
+        if not key.find("question"): continue
+        numbers = int(''.join(map(str, [int(num) for num in key if num.isdigit()])))
+        qid =  Question.objects.filter(pk=numbers)
+        if qid.exists():
+            Answer.objects.create(QID=qid[0], UID=UID, content=data)
+
+
+def pet_match_bot(datas, userinfo):
     pet_infos = PetCode.objects.all()
     pet_dict = {}
+    UID = User.objects.get(pk=userinfo.pk)
+    answer_insertt(datas['user'], UID)
+    answer_insertt(datas['pet'], UID)
+
+    
     for pet_info in pet_infos:
         if pet_dict.get(pet_info.PCID.type):
             pet_dict[pet_info.PCID.type].append(pet_info.name)
@@ -46,5 +61,5 @@ def pet_match_bot(datas):
         response_format={"type": "json_object"}
     )
     
-
+    AIHistory.objects.create(UID=UID, question=datas, answer=json.loads(completion.choices[0].message.content))
     return completion.choices[0].message

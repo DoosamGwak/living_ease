@@ -9,5 +9,5 @@ class QuestionSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Question
-        fields = ("type", "title", "content", )
+        fields = ("pk", "type", "title", "content", )
 
