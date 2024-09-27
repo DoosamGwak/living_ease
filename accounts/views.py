@@ -1,13 +1,6 @@
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializers import (
-    UserSerializer,
-    UserPofileSerializer,
-    UserDeleteSerializer,
-    PasswordChangeSerializer,
-)
-from .models import User
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
@@ -15,6 +8,13 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.exceptions import TokenError
+from .models import User
+from .serializers import (
+    UserSerializer,
+    UserPofileSerializer,
+    UserDeleteSerializer,
+    PasswordChangeSerializer,
+)
 
 
 class SignupView(CreateAPIView):
@@ -51,6 +51,7 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
+        self.per
 
         data = request.data
         if not "refresh" in data:
