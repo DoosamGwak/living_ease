@@ -13,8 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 from pathlib import Path
 from datetime import timedelta
 import os
-import environ
-
+from os import environ
 
 env = environ.Env(DEBUG=(bool, False))
 
@@ -53,6 +52,7 @@ INSTALLED_APPS = [
     # project app
     "accounts",
     "pets",
+    "boards",
 ]
 
 MIDDLEWARE = [
