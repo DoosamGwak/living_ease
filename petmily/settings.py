@@ -33,7 +33,7 @@ OPENAI_API_KEY = env("GPT_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1","localhost","172.31.9.218"]
+ALLOWED_HOSTS = ["127.0.0.1","localhost","3.38.151.43"]
 
 
 # Application definition
