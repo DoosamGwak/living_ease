@@ -46,14 +46,15 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class CommentListAPIView(ListCreateAPIView):
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by("-id")
     serializer_class = CommentSerializer
     
     def get_object(self, pk):
+        board_pk = self.kwargs.get("board_pk")
         try:
-            return Board.objects.get(pk=pk)
+            return Board.objects.get(pk=board_pk)
         except Board.DoesNotExist:
-            raise NotFound("요청한 페이지가 없습니다")
+            raise NotFound("요청한 게시글이 없습니다")
     
     def perform_create(self, serializer):
         board_pk = self.kwargs.get("board_pk")
