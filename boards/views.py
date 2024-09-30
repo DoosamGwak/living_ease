@@ -44,8 +44,32 @@ class CommentListAPIView(ListCreateAPIView):
     
     def perform_create(self, serializer):
         board_pk = self.kwargs.get("board_pk")
-        board = self.get_object(Board, pk=board_pk)
+        board = self.get_object(pk=board_pk)
 
         comment_author = self.request.user
 
-        serializer.save(board=board, review_author=comment_author)
+        serializer.save(board=board, user=comment_author)
+        
+        
+class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset=Comment.objects.all()
+    serializer_class=CommentSerializer
+    lookup_field = "pk"
+    
+    def get_object(self):
+        comment_pk = self.kwargs.get("comment_pk")
+        try:
+            return Comment.objects.get(pk=comment_pk)
+        except Comment.DoesNotExist:
+            raise NotFound("요청한 댓글이 없습니다.")
+    
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        if instance.user != self.request.user:
+            raise PermissionDenied("이 댓글을 수정할 권한이 없습니다.")
+        serializer.save()
+    
+    def perform_destroy(self, instance):
+        if instance.user != self.request.user:
+            raise PermissionDenied("이 댓글을 삭제할 권한이 없습니다.")
+        instance.delete()

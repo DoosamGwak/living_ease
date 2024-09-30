@@ -41,10 +41,6 @@ class CommentSerializer(serializers.ModelSerializer):
         fields = ["id", "content", "username", "created_at", "updated_at"]
         read_only_fields = ["board"]
 
-    def to_representation(self, instance):
-        ret = super().to_representation(instance)
-        ret["user"] = instance.user.username
-        return ret
 
 
 class BoardDetailSerializer(IsAuthorValidator, serializers.ModelSerializer):
