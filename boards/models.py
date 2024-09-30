@@ -21,7 +21,7 @@ class Board(TimeStampedModel):
 
 class BoardImage(TimeStampedModel):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name='images')
-    image = models.ImageFieldField(upload_to="boards/", null=True, blank=True)
+    image = models.ImageField(upload_to="boards/", null=True, blank=True)
     
     def __str__(self):
         return f"Image for {self.board.title}"
