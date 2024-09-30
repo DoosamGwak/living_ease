@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Board, BoardImage, Comment
-from .validators import ImageValidator, IsAuthorValidator
 
 
 class BoardImageSerializer(serializers.ModelSerializer):
@@ -17,7 +16,7 @@ class BoardListSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "username"]
 
 
-class BoardCreateSerializer(ImageValidator, serializers.ModelSerializer):
+class BoardCreateSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
     images = BoardImageSerializer(many=True, read_only=True)
 
@@ -42,8 +41,7 @@ class CommentSerializer(serializers.ModelSerializer):
         read_only_fields = ["board"]
 
 
-
-class BoardDetailSerializer(IsAuthorValidator, serializers.ModelSerializer):
+class BoardDetailSerializer(serializers.ModelSerializer):
     images = BoardImageSerializer(many=True, read_only=True)
     username = serializers.CharField(source="user.username", read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
@@ -60,8 +58,3 @@ class BoardDetailSerializer(IsAuthorValidator, serializers.ModelSerializer):
             "comments",
             "images",
         ]
-
-    def validate(self, data):
-        request = self.context.get("request")
-        self.validate_user(request.user, self.instance)
-        return data

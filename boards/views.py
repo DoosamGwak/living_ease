@@ -25,6 +25,19 @@ class BoardListAPIView(ListCreateAPIView):
 class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardDetailSerializer
+    lookup_field="pk"
+    
+    def get_object(self):
+        board_pk = self.kwargs.get("board_pk")
+        try:
+            return Board.objects.get(pk=board_pk)
+        except Board.DoesNotExist:
+            raise NotFound("요청한 게시글이 없습니다.")
+    
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        if instance.user != self.request.user:
+            raise PermissionDenied("이 게시글을 수정할 권한이 없습니다.")
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
