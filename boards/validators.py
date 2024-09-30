@@ -1,4 +1,5 @@
 from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import PermissionDenied
 
 class ImageValidator:
 
@@ -15,6 +16,6 @@ class ImageValidator:
         
 
 class IsAuthorValidator:
-    def validate_user_is_author(request_user, board):
+    def validate_user(self, request_user, board):
         if board.user != request_user:
-            raise ValidationError("이 게시글을 수정/삭제할 권한이 없습니다.")
+            raise PermissionDenied("이 게시글을 수정할 권한이 없습니다.")

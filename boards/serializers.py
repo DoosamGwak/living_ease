@@ -42,4 +42,10 @@ class BoardDetailSerializer(IsAuthorValidator, serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ['id', 'title', 'content', 'username', 'images',]
+        fields = ['id', 'title', 'content', 'username', 'images']
+    
+    def validate(self, data):
+        # 요청 유저(request.user)와 게시글 작성자가 동일한지 검증
+        request = self.context.get('request')  # context에서 request 객체를 가져옴
+        self.validate_user(request.user, self.instance)  # 검증 로직 호출
+        return data
