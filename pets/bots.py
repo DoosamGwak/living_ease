@@ -75,7 +75,12 @@ def pet_match_bot(datas, userinfo):
     return completion.choices[0].message
 
 
-def center_recommendation(animal_code=None):
+def center_recommendation(animal_name):
+    if DATA_PET.get(animal_name):
+        animal_code = DATA_PET[animal_name]
+    else:
+        return {"error" : "조회 하려는 견종은 현재 제공하고 있지 않습니다."}
+
     # petcode 조회
     # url = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/kind"
     # params ={"serviceKey" : DATA,  "up_kind_cd" : "417000", "_type" : "json" }
@@ -86,4 +91,4 @@ def center_recommendation(animal_code=None):
     url = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic"
     params ={"serviceKey" : DATA,  "upkind" : "417000", "kind" : animal_code, "state" : "notice", "_type" : "json" }
     response = requests.get(url, params=params)
-    print(response.text)
+    return json.loads(response.text)["response"]["body"]["items"]

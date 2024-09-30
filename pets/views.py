@@ -5,7 +5,7 @@ from rest_framework.response import Response
 import json
 from .models import Question
 from .serializers import QuestionSerializer
-from .bots import pet_match_bot
+from .bots import pet_match_bot, center_recommendation
 
 # Create your views here.
 class QuestionListView(ListAPIView):
@@ -18,3 +18,12 @@ class AIRecoomand(APIView):
     def post(self, request):
         match = pet_match_bot(request.data, request.user)
         return Response(json.loads(match.content))
+    
+
+class MetchingCenter(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self, request):
+        response = center_recommendation(request.data.get("animal_name"))
+        if response.get("error"):
+            return Response(response, status=400)
+        return Response(response)
