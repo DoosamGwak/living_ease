@@ -1,11 +1,11 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Board
-from .serializers import BoardSerializer,BoardCreateSerializer, BoardDetailSerializer
+from .serializers import BoardListSerializer,BoardCreateSerializer, BoardDetailSerializer
 
 class BoardListAPIView(ListCreateAPIView):
     queryset=Board.objects.all()
-    serializer_class=BoardSerializer
+    serializer_class=BoardListSerializer
     
     
     def post(self, request, *args, **kwargs):
@@ -19,7 +19,7 @@ class BoardListAPIView(ListCreateAPIView):
 class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset=Board.objects.all()
     serializer_class=BoardDetailSerializer
-    
+
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
             raise PermissionDenied("이 게시글을 삭제할 권한이 없습니다.")

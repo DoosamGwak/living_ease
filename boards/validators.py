@@ -4,15 +4,15 @@ from rest_framework.exceptions import PermissionDenied
 class ImageValidator:
 
     max_size = 5 * 1024 * 1024 
-    valid_mime_types = ['image/jpeg', 'image/png']
+    valid_types = ['image/jpeg', 'image/png', 'image/gif']
 
     def validate_image_size(cls, image):
         if image.size > cls.max_size:
             raise ValidationError(f"이미지 파일 크기가 너무 큽니다. 최대 허용 크기는 {cls.max_size // (1024 * 1024)}MB 입니다.")
 
     def validate_image_format(cls, image):
-        if image.content_type not in cls.valid_mime_types:
-            raise ValidationError("지원되지 않는 이미지 형식입니다. JPEG 또는 PNG 파일을 업로드하세요.")
+        if image.content_type not in cls.valid_types:
+            raise ValidationError("지원되지 않는 이미지 형식입니다. JPEG, PNG 또는 GIF 파일을 업로드하세요.")
         
 
 class IsAuthorValidator:
