@@ -30,4 +30,4 @@ class BoardImage(TimeStampedModel):
 class Comment(TimeStampedModel):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="comments")
     content = models.TextField()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="comments")
