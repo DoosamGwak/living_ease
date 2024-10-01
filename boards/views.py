@@ -1,7 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .models import Board, Comment
+from .models import Board, Comment, Category
 from .serializers import (
     BoardListSerializer,
     BoardCreateSerializer,
@@ -10,16 +10,59 @@ from .serializers import (
 )
 
 
-class BoardListAPIView(ListCreateAPIView):
-    queryset = Board.objects.all().order_by("-id")
+def get_category(category_name):
+    try:
+        return Category.objects.get(name=category_name)
+    except Category.DoesNotExist:
+        raise NotFound("요청한 페이지가 없습니다.")
+
+
+class CommunityBoardListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+
+    def get_queryset(self):
+        category = get_category("community")
+        return Board.objects.filter(category=category).order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        category = get_category("community")
+        serializer.save(user=self.request.user, category=category)
+
+
+class TipBoardListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+
+    def get_queryset(self):
+        category = get_category("tip")
+        return Board.objects.filter(category=category).order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("tip")
+        serializer.save(user=self.request.user, category=category)
+
+
+class NoticeBoardListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+
+    def get_queryset(self):
+        category = get_category("notice")
+        return Board.objects.filter(category=category).order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("notice")
+        serializer.save(user=self.request.user, category=category)
 
 
 class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
