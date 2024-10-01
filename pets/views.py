@@ -16,6 +16,8 @@ class QuestionListView(ListAPIView):
 class AIRecoomand(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
+        if not request.data or not request.user:
+            return Response({"error":"설문 내용이 비어있거나 로그인을 하지 않았습니다."}, status=400)
         match = pet_match_bot(request.data, request.user)
         return Response(json.loads(match.content))
     
