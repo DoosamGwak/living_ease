@@ -46,6 +46,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     comments_count = serializers.IntegerField(source="comments.count", read_only=True)
+    category = serializers.CharField(source="category.name", read_only=True)
 
     class Meta:
         model = Board
@@ -57,12 +58,13 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "comments_count",
             "comments",
             "images",
+            "category",
         ]
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    boards = BoardListSerializer(many=True,read_only=True)
-    
+    boards = BoardListSerializer(many=True, read_only=True)
+
     class Meta:
-        model= Category
-        fields=["id","name","boards"]
+        model = Category
+        fields = ["id", "name", "boards"]
