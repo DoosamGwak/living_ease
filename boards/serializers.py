@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, BoardImage, Comment
+from .models import Board, BoardImage, Comment, Category
 
 
 class BoardImageSerializer(serializers.ModelSerializer):
@@ -58,3 +58,11 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "comments",
             "images",
         ]
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    boards = BoardListSerializer(many=True,read_only=True)
+    
+    class Meta:
+        model= Category
+        fields=["id","name","boards"]
