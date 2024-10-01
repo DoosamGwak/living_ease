@@ -23,7 +23,7 @@ class CommunityBoardListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         category = get_category("community")
-        return Board.objects.filter(category=category).order_by("-id")
+        return category.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -39,7 +39,7 @@ class TipBoardListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         category = get_category("tip")
-        return Board.objects.filter(category=category).order_by("-id")
+        return category.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -55,7 +55,7 @@ class NoticeBoardListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         category = get_category("notice")
-        return Board.objects.filter(category=category).order_by("-id")
+        return category.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
