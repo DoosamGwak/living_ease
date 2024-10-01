@@ -91,4 +91,15 @@ def center_recommendation(animal_name):
     url = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic"
     params ={"serviceKey" : DATA,  "upkind" : "417000", "kind" : animal_code, "state" : "notice", "_type" : "json" }
     response = requests.get(url, params=params)
-    return json.loads(response.text)["response"]["body"]["items"]
+
+    answer = json.loads(response.text)["response"]["body"]["items"]
+    for i, k in enumerate(answer["item"]):
+        answer["item"][i]= {
+            "name": animal_name,
+            "popfile": k.get("popfile"),
+            "age": k.get("age"),
+            "sexCd": k.get("sexCd"),
+            "careNm":  k.get("careNm")
+        }
+
+    return answer
