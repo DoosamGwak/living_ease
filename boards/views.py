@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
@@ -89,8 +90,11 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 
 class CommentListAPIView(ListCreateAPIView):
-    queryset = Comment.objects.all().order_by("-id")
     serializer_class = CommentSerializer
+    
+    def get_queryset(self):
+        board_pk = self.kwargs.get("board_pk")
+        return Comment.objects.filter(board__pk=board_pk).order_by("-id")
 
     def get_object(self):
         board_pk = self.kwargs.get("board_pk")
@@ -107,9 +111,12 @@ class CommentListAPIView(ListCreateAPIView):
 
 
 class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
-    queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     lookup_field = "pk"
+    
+    def get_queryset(self):
+        board_pk = self.kwargs.get("board_pk")
+        return Comment.objects.filter(board__pk=board_pk)
 
     def get_object(self):
         comment_pk = self.kwargs.get("comment_pk")
@@ -128,3 +135,5 @@ class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
         if instance.user != self.request.user:
             raise PermissionDenied("이 댓글을 삭제할 권한이 없습니다.")
         instance.delete()
+
+
