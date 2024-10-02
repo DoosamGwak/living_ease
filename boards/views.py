@@ -1,8 +1,8 @@
-from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Board, Comment, Category
+from .permissions import IsStaffOrReadOnly
 from .serializers import (
     BoardListSerializer,
     BoardCreateSerializer,
@@ -18,11 +18,27 @@ def get_category(category_name):
         raise NotFound("요청한 페이지가 없습니다.")
 
 
-class CommunityBoardListAPIView(ListCreateAPIView):
+class TipListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
 
     def get_queryset(self):
-        category = get_category("community")
+        childcategory = get_category("tip")
+        return childcategory.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        childcategory = get_category("tip")
+        serializer.save(user=self.request.user, category=childcategory)
+
+
+class WalkingmateListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+
+    def get_queryset(self):
+        category = get_category("walkingmate")
         return category.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
@@ -30,15 +46,15 @@ class CommunityBoardListAPIView(ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        category = get_category("community")
+        category = get_category("walkingmate")
         serializer.save(user=self.request.user, category=category)
 
 
-class TipBoardListAPIView(ListCreateAPIView):
+class EtcListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
 
     def get_queryset(self):
-        category = get_category("tip")
+        category = get_category("etc")
         return category.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
@@ -46,12 +62,81 @@ class TipBoardListAPIView(ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        category = get_category("tip")
+        category = get_category("etc")
         serializer.save(user=self.request.user, category=category)
 
 
-class NoticeBoardListAPIView(ListCreateAPIView):
+class VaccineListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("vaccine")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("vaccine")
+        serializer.save(user=self.request.user, category=category)
+
+
+class TrainingListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("training")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("training")
+        serializer.save(user=self.request.user, category=category)
+
+
+class HealthyfoodListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("healthyfood")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("healthyfood")
+        serializer.save(user=self.request.user, category=category)
+
+
+class SuppliesListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("supplies")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("suppplies")
+        serializer.save(user=self.request.user, category=category)
+
+
+class NoticeListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("notice")
@@ -63,6 +148,57 @@ class NoticeBoardListAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         category = get_category("notice")
+        serializer.save(user=self.request.user, category=category)
+
+
+class FaqListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("faq")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("faq")
+        serializer.save(user=self.request.user, category=category)
+
+
+class HowtouseListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    permission_classes=[IsStaffOrReadOnly]
+
+    def get_queryset(self):
+        category = get_category("howtouse")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("howtouse")
+        serializer.save(user=self.request.user, category=category)
+
+
+class DirectmsgListAPIView(ListCreateAPIView):
+    serializer_class = BoardListSerializer
+    
+
+    def get_queryset(self):
+        category = get_category("directmsg")
+        return category.boards.all().order_by("-id")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = BoardCreateSerializer
+        return super().post(request, *args, **kwargs)
+
+    def perform_create(self, serializer):
+        category = get_category("directmsg")
         serializer.save(user=self.request.user, category=category)
 
 
@@ -91,7 +227,7 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
 
 class CommentListAPIView(ListCreateAPIView):
     serializer_class = CommentSerializer
-    
+
     def get_queryset(self):
         board_pk = self.kwargs.get("board_pk")
         return Comment.objects.filter(board__pk=board_pk).order_by("-id")
@@ -113,7 +249,7 @@ class CommentListAPIView(ListCreateAPIView):
 class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     lookup_field = "pk"
-    
+
     def get_queryset(self):
         board_pk = self.kwargs.get("board_pk")
         return Comment.objects.filter(board__pk=board_pk)
@@ -135,5 +271,3 @@ class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
         if instance.user != self.request.user:
             raise PermissionDenied("이 댓글을 삭제할 권한이 없습니다.")
         instance.delete()
-
-

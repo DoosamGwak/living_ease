@@ -60,6 +60,13 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "images",
             "category",
         ]
+    
+    def to_representation(self, instance):
+        data= super().to_representation(instance)
+        if instance.category.parent and instance.category.parent.name =='customer_service':
+            data.pop('comments',None)
+            data.pop('comments_count',None)
+        return data
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -68,3 +75,4 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "boards"]
+
