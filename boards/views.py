@@ -1,5 +1,6 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
+from django.db.models import Q
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .models import Board, Comment, Category
 from .permissions import IsStaffOrReadOnly
@@ -10,6 +11,15 @@ from .serializers import (
     CommentSerializer,
 )
 
+
+def search_filter(queryset, search_word):
+    if search_word:
+        return queryset.filter(
+            Q(title__icontains=search_word)
+            | Q(content_icontains=search_word)
+            | Q(user__username__icontains=search_word)
+        )
+    return queryset
 
 def get_category(category_name):
     try:
@@ -68,7 +78,7 @@ class EtcListAPIView(ListCreateAPIView):
 
 class VaccineListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("vaccine")
@@ -85,7 +95,7 @@ class VaccineListAPIView(ListCreateAPIView):
 
 class TrainingListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("training")
@@ -102,7 +112,7 @@ class TrainingListAPIView(ListCreateAPIView):
 
 class HealthyfoodListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("healthyfood")
@@ -119,7 +129,7 @@ class HealthyfoodListAPIView(ListCreateAPIView):
 
 class SuppliesListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("supplies")
@@ -136,7 +146,7 @@ class SuppliesListAPIView(ListCreateAPIView):
 
 class NoticeListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("notice")
@@ -153,7 +163,7 @@ class NoticeListAPIView(ListCreateAPIView):
 
 class FaqListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("faq")
@@ -170,7 +180,7 @@ class FaqListAPIView(ListCreateAPIView):
 
 class HowtouseListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    permission_classes=[IsStaffOrReadOnly]
+    permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
         category = get_category("howtouse")
@@ -187,7 +197,6 @@ class HowtouseListAPIView(ListCreateAPIView):
 
 class DirectmsgListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
-    
 
     def get_queryset(self):
         category = get_category("directmsg")
