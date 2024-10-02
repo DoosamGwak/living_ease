@@ -1,7 +1,10 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .filters import BoardFilter
 from .models import Board, Comment, Category
 from .permissions import IsStaffOrReadOnly
 from .serializers import (
@@ -12,15 +15,6 @@ from .serializers import (
 )
 
 
-def search_filter(queryset, search_word):
-    if search_word:
-        return queryset.filter(
-            Q(title__icontains=search_word)
-            | Q(content_icontains=search_word)
-            | Q(user__username__icontains=search_word)
-        )
-    return queryset
-
 def get_category(category_name):
     try:
         return Category.objects.get(name=category_name)
@@ -30,12 +24,13 @@ def get_category(category_name):
 
 class TipListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("tip")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -48,12 +43,12 @@ class TipListAPIView(ListCreateAPIView):
 
 class WalkingmateListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("walkingmate")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -66,12 +61,12 @@ class WalkingmateListAPIView(ListCreateAPIView):
 
 class EtcListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("etc")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -85,12 +80,13 @@ class EtcListAPIView(ListCreateAPIView):
 class VaccineListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("vaccine")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -104,12 +100,13 @@ class VaccineListAPIView(ListCreateAPIView):
 class TrainingListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("training")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -123,12 +120,13 @@ class TrainingListAPIView(ListCreateAPIView):
 class HealthyfoodListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("healthyfood")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -142,12 +140,13 @@ class HealthyfoodListAPIView(ListCreateAPIView):
 class SuppliesListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("supplies")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -161,13 +160,13 @@ class SuppliesListAPIView(ListCreateAPIView):
 class NoticeListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("notice")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
-
+        return childcategory.boards.all().order_by("-id")
+        
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
         return super().post(request, *args, **kwargs)
@@ -180,13 +179,13 @@ class NoticeListAPIView(ListCreateAPIView):
 class FaqListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("faq")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
-
+        return childcategory.boards.all().order_by("-id")
+        
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
         return super().post(request, *args, **kwargs)
@@ -199,12 +198,13 @@ class FaqListAPIView(ListCreateAPIView):
 class HowtouseListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     permission_classes = [IsStaffOrReadOnly]
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("howtouse")
-        queryset=childcategory.boards.all().order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
+        return childcategory.boards.all().order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -217,13 +217,13 @@ class HowtouseListAPIView(ListCreateAPIView):
 
 class DirectmsgListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = BoardFilter
 
     def get_queryset(self):
         childcategory = get_category("directmsg")
-        queryset=childcategory.boards.filter(user=self.request.user).order_by("-id")
-        search_word = self.request.query_params.get('search',None)
-        return search_filter(queryset,search_word)
-    
+        return childcategory.boards.filter(user=self.request.user).order_by("-id")
+        
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
