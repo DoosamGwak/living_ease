@@ -1,8 +1,6 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
-from django.db.models import Q
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .filters import BoardFilter
 from .models import Board, Comment, Category
