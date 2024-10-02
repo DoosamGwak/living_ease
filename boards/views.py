@@ -191,7 +191,6 @@ class DirectmsgListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         category = get_category("directmsg")
-        # return category.boards.all().order_by("-id")
         return category.boards.filter(user=self.request.user).order_by("-id")
 
     def post(self, request, *args, **kwargs):
