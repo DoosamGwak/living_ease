@@ -33,7 +33,9 @@ class TipListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         childcategory = get_category("tip")
-        return childcategory.boards.all().order_by("-id")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -48,8 +50,10 @@ class WalkingmateListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
 
     def get_queryset(self):
-        category = get_category("walkingmate")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("walkingmate")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -64,8 +68,10 @@ class EtcListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
 
     def get_queryset(self):
-        category = get_category("etc")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("etc")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -81,8 +87,10 @@ class VaccineListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("vaccine")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("vaccine")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -98,8 +106,10 @@ class TrainingListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("training")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("training")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -115,8 +125,10 @@ class HealthyfoodListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("healthyfood")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("healthyfood")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -132,8 +144,10 @@ class SuppliesListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("supplies")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("supplies")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -149,8 +163,10 @@ class NoticeListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("notice")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("notice")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -166,8 +182,10 @@ class FaqListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("faq")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("faq")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -183,8 +201,10 @@ class HowtouseListAPIView(ListCreateAPIView):
     permission_classes = [IsStaffOrReadOnly]
 
     def get_queryset(self):
-        category = get_category("howtouse")
-        return category.boards.all().order_by("-id")
+        childcategory = get_category("howtouse")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
@@ -199,8 +219,10 @@ class DirectmsgListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
 
     def get_queryset(self):
-        category = get_category("directmsg")
-        return category.boards.filter(user=self.request.user).order_by("-id")
+        childcategory = get_category("directmsg")
+        queryset=childcategory.boards.all().order_by("-id")
+        search_word = self.request.query_params.get('search',None)
+        return search_filter(queryset,search_word)
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
