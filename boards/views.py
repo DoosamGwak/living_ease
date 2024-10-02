@@ -220,9 +220,10 @@ class DirectmsgListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         childcategory = get_category("directmsg")
-        queryset=childcategory.boards.all().order_by("-id")
+        queryset=childcategory.boards.filter(user=self.request.user).order_by("-id")
         search_word = self.request.query_params.get('search',None)
         return search_filter(queryset,search_word)
+    
 
     def post(self, request, *args, **kwargs):
         self.serializer_class = BoardCreateSerializer
