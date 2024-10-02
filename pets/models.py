@@ -35,3 +35,9 @@ class AIHistory(models.Model):
     question = models.TextField()
     answer = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PetWikiImage(models.Model):
+    PID = models.ForeignKey(PetCode, on_delete=models.DO_NOTHING, related_name="pet_images")
+    image = models.ImageField(upload_to="pets/")
+    created_at = models.DateTimeField(auto_now_add=True)
