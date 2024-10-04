@@ -4,16 +4,19 @@ from .models import User
 from .validators import CustomProfileDeleteValidator, OldPasswordValidator
 
 
+
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "username", "password", "nickname", "name","age", "gender", "profile_image"]
+        fields = ["email", "password", "nickname", "name","age", "gender", "profile_image"]
 
 
 class UserPofileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["username", "name", "email", "profile_image","nickname",  "age", "gender","joined_at"]
+        fields = ["name", "email", "profile_image","nickname",  "age", "gender","joined_at"]
 
 
 class UserDeleteSerializer(CustomProfileDeleteValidator, serializers.ModelSerializer):
