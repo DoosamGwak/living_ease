@@ -31,9 +31,10 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data["username"]
+        email = request.data["email"]
         password = request.data["password"]
-        user = authenticate(username=username, password=password)
+        user = authenticate(email=email, password=password)
+        print(email, password, user)
         if user is not None:
 
             refresh = RefreshToken.for_user(user)

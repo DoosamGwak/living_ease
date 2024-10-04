@@ -15,7 +15,6 @@ from datetime import timedelta
 import os
 import environ
 
-
 env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -33,7 +32,7 @@ OPENAI_API_KEY = env("GPT_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1","localhost","3.38.151.43"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43"]
 
 
 # Application definition
@@ -50,12 +49,15 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
+    "storages",
     # project app
     "accounts",
     "pets",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -64,6 +66,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http:\/\/localhost:*([0-9]+)?$",
+]
+
 
 ROOT_URLCONF = "petmily.urls"
 
@@ -151,16 +159,25 @@ USE_I18N = True
 USE_TZ = True
 
 
+# AWS Setting
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 생성한 버킷 이름
+AWS_REGION = env("AWS_REGION")  # AWS서버의 지역
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")  # 액서스 키 PW
+
+# 버킷이름.s3.AWS서버지역.amazonaws.com 형식
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
+# Static Setting
+STATIC_URL = "/static/"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# Media Setting
 
-# Media files
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/meida/"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
