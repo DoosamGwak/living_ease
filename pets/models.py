@@ -10,6 +10,19 @@ class Question(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+class Choice(models.Model):
+    TYPE = [
+        ("1","TEXT"),
+        ("2","RANGE"),
+        ("3","RADIO"),
+        ("4","CHECK"),
+    ]
+    QID = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="choices")
+    content_type = models.CharField(max_length=1, choices=TYPE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
 class Answer(models.Model):
     QID = models.ForeignKey(Question, on_delete=models.CASCADE, related_name="q_answers")
     UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="u_answers")
