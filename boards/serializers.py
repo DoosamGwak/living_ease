@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Board, BoardImage, Comment, Category
+from .models import Board, NoticeBoard, BoardImage, Comment, Category
 
 
 class BoardImageSerializer(serializers.ModelSerializer):
@@ -60,13 +60,29 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "images",
             "category",
         ]
-    
+
     def to_representation(self, instance):
-        data= super().to_representation(instance)
-        if instance.category.parent and instance.category.parent.name =='customer_service':
-            data.pop('comments',None)
-            data.pop('comments_count',None)
+        data = super().to_representation(instance)
+        if (
+            instance.category.parent
+            and instance.category.parent.name == "customer_service"
+        ):
+            data.pop("comments", None)
+            data.pop("comments_count", None)
         return data
+
+
+class Noticeboard(BoardDetailSerializer):
+    priority = serializers.IntegerField(
+        read_only=True
+    )
+
+    class Meta(BoardDetailSerializer.Meta):
+        model = NoticeBoard  
+        fields = BoardDetailSerializer.Meta.fields + ["priority"]
+        fields.remove("comments")
+        fields.remove("comments_count")
+
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -75,4 +91,3 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "boards"]
-
