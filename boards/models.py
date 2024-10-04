@@ -42,6 +42,13 @@ class BoardImage(TimeStampedModel):
 
     def __str__(self):
         return f"Image for {self.board.title}"
+    
+    
+class NoticeBoard(Board):
+    priority = models.PositiveIntegerField(default=1)
+
+    def __str__(self):
+        return f"[우선순위 {self.priority}] {self.title}"
 
 
 class Comment(TimeStampedModel):
