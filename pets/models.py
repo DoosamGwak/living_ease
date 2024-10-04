@@ -31,7 +31,7 @@ class PetCode(models.Model):
 
 
 class AIHistory(models.Model):
-    UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="users")
+    UID = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name="aihistorys")
     question = models.TextField()
     answer = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
