@@ -166,7 +166,7 @@ class NoticeListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         childcategory = get_category("notice")
-        return childcategory.boards.all().order_by("priority")
+        return childcategory.noticeboards.all().order_by("priority")
         
     def post(self, request, *args, **kwargs):
         self.serializer_class = NoticeCreateSerializer
@@ -263,7 +263,7 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
         instance.delete()
 
 
-class NoticeBoardDetailAPIView(RetrieveUpdateDestroyAPIView):
+class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = NoticeBoard.objects.all()
     serializer_class = NoticeDetailSerializer
     lookup_field = "pk"

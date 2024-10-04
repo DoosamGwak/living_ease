@@ -36,19 +36,22 @@ class Board(TimeStampedModel):
         return self.title
 
 
-class BoardImage(TimeStampedModel):
-    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="images")
-    image = models.ImageField(upload_to="boards/", null=True, blank=True)
-
-    def __str__(self):
-        return f"Image for {self.board.title}"
-    
-    
 class NoticeBoard(Board):
     priority = models.PositiveIntegerField(default=1)
 
     def __str__(self):
         return f"[우선순위 {self.priority}] {self.title}"
+        
+
+
+class BoardImage(TimeStampedModel):
+    board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="board_images")
+    noticeboard = models.ForeignKey(NoticeBoard, on_delete=models.CASCADE, related_name="noticeboard_images")
+    image = models.ImageField(upload_to="boards/", null=True, blank=True)
+
+    def __str__(self):
+        return f"Image for {self.board.title}"
+    
 
 
 class Comment(TimeStampedModel):

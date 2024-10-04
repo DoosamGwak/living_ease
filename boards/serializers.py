@@ -12,7 +12,7 @@ class BoardListSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source="user.username", read_only=True)
 
     class Meta:
-        model = Board
+        model = NoticeBoard
         fields = ["id", "title", "username"]
         
 
