@@ -8,6 +8,7 @@ from .validators import CustomProfileDeleteValidator, OldPasswordValidator
 
 
 class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
     class Meta:
         model = User
         fields = ["email", "password", "nickname", "name","age", "gender", "profile_image"]

@@ -44,7 +44,10 @@ class LoginView(APIView):
                 {
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
-                }
+                    "email": user.email,
+                    "nickname": user.nickname
+                    }
+                
             )
         return Response(
             {"error": "로그인에 실패하였습니다"}, status=status.HTTP_400_BAD_REQUEST
