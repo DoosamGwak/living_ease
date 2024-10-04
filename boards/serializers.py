@@ -9,28 +9,28 @@ class BoardImageSerializer(serializers.ModelSerializer):
 
 
 class BoardListSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = NoticeBoard
-        fields = ["id", "title", "username"]
+        fields = ["id", "title", "nickname"]
         
 
 class NoticeListSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = NoticeBoard
-        fields = ["id", "title", "username"]
+        fields = ["id", "title", "nickname"]
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
     images = BoardImageSerializer(many=True, read_only=True)
 
     class Meta:
         model = Board
-        fields = ["title", "content", "username", "images"]
+        fields = ["title", "content", "nickname", "images"]
 
     def create(self, validated_data):
         images_data = self.context["request"].FILES
@@ -41,17 +41,17 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source="user.username", read_only=True)
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = Comment
-        fields = ["id", "content", "username", "created_at", "updated_at"]
+        fields = ["id", "content", "nickname", "created_at", "updated_at"]
         read_only_fields = ["board"]
 
 
 class BoardDetailSerializer(serializers.ModelSerializer):
     images = BoardImageSerializer(many=True, read_only=True)
-    username = serializers.CharField(source="user.username", read_only=True)
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     comments_count = serializers.IntegerField(source="comments.count", read_only=True)
     category = serializers.CharField(source="category.name", read_only=True)
@@ -62,7 +62,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "id",
             "title",
             "content",
-            "username",
+            "nickname",
             "comments_count",
             "comments",
             "images",

@@ -166,7 +166,7 @@ class NoticeListAPIView(ListCreateAPIView):
 
     def get_queryset(self):
         childcategory = get_category("notice")
-        return childcategory.noticeboards.all().order_by("priority")
+        return NoticeBoard.objects.filter(category=childcategory).order_by("priority")
         
     def post(self, request, *args, **kwargs):
         self.serializer_class = NoticeCreateSerializer
@@ -266,10 +266,10 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
 class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = NoticeBoard.objects.all()
     serializer_class = NoticeDetailSerializer
-    lookup_field = "pk"
+    lookup_field = "noticeboard_pk"
 
     def get_object(self):
-        board_pk = self.kwargs.get("pk")
+        board_pk = self.kwargs.get("noticeboard_pk")
         try:
             return NoticeBoard.objects.get(pk=board_pk)
         except NoticeBoard.DoesNotExist:

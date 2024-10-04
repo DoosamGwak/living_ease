@@ -39,6 +39,7 @@ class Board(TimeStampedModel):
 class NoticeBoard(Board):
     priority = models.PositiveIntegerField(default=1)
 
+
     def __str__(self):
         return f"[우선순위 {self.priority}] {self.title}"
         
