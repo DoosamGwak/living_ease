@@ -99,6 +99,7 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = "accounts.User"
+AUTHENTICATION_BACKENDS=['accounts.auth_backends.EmailBackend']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -167,3 +168,4 @@ MEDIA_ROOT = BASE_DIR / "media"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
