@@ -14,6 +14,14 @@ class BoardListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Board
         fields = ["id", "title", "username"]
+        
+
+class NoticeListSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source="user.username", read_only=True)
+
+    class Meta:
+        model = NoticeBoard
+        fields = ["id", "title", "username"]
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
@@ -72,17 +80,31 @@ class BoardDetailSerializer(serializers.ModelSerializer):
         return data
 
 
-class Noticeboard(BoardDetailSerializer):
-    priority = serializers.IntegerField(
-        read_only=True
-    )
+class NoticeCreateSerializer(BoardCreateSerializer):
+    priority = serializers.IntegerField(default=1)
+
+    class Meta(BoardCreateSerializer.Meta):
+        model = NoticeBoard
+        fields = BoardCreateSerializer.Meta.fields + ["priority"]
+
+    def create(self, validated_data):
+        priority = validated_data.pop("priority", 1)
+        notice_board = NoticeBoard.objects.create(**validated_data, priority=priority)
+        images_data = self.context["request"].FILES
+        for image_data in images_data.getlist("image"):
+            BoardImage.objects.create(board=notice_board, image=image_data)
+
+        return notice_board
+
+
+class NoticeDetailSerializer(BoardDetailSerializer):
+    priority = serializers.IntegerField(read_only=True)
 
     class Meta(BoardDetailSerializer.Meta):
-        model = NoticeBoard  
+        model = NoticeBoard
         fields = BoardDetailSerializer.Meta.fields + ["priority"]
         fields.remove("comments")
         fields.remove("comments_count")
-
 
 
 class CategorySerializer(serializers.ModelSerializer):
