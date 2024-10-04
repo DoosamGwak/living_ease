@@ -2,13 +2,16 @@ from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .filters import BoardFilter
-from .models import Board, Comment, Category
+from .filters import BoardFilter, NoticeBoardFilter
+from .models import Board, NoticeBoard, Comment, Category
 from .permissions import IsStaffOrReadOnly
 from .serializers import (
     BoardListSerializer,
+    NoticeListSerializer,
     BoardCreateSerializer,
+    NoticeCreateSerializer,
     BoardDetailSerializer,
+    NoticeDetailSerializer,
     CommentSerializer,
 )
 
@@ -156,22 +159,27 @@ class SuppliesListAPIView(ListCreateAPIView):
 
 
 class NoticeListAPIView(ListCreateAPIView):
-    serializer_class = BoardListSerializer
+    serializer_class = NoticeListSerializer
     permission_classes = [IsStaffOrReadOnly]
     filter_backends = [DjangoFilterBackend]
-    filterset_class = BoardFilter
+    filterset_class = NoticeBoardFilter
 
     def get_queryset(self):
         childcategory = get_category("notice")
-        return childcategory.boards.all().order_by("-id")
+        return childcategory.boards.all().order_by("priority")
         
     def post(self, request, *args, **kwargs):
-        self.serializer_class = BoardCreateSerializer
+        self.serializer_class = NoticeCreateSerializer
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
         category = get_category("notice")
-        serializer.save(user=self.request.user, category=category)
+        priority = serializer.validated_data.get("priority", 1)
+        existing_boards = NoticeBoard.objects.filter(priority=priority, category=category)
+        for board in existing_boards:
+            board.priority += 1
+            board.save()
+        serializer.save(user=self.request.user, category=category, priority=priority)
 
 
 class FaqListAPIView(ListCreateAPIView):
@@ -252,6 +260,30 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
             raise PermissionDenied("이 게시글을 삭제할 권한이 없습니다.")
+        instance.delete()
+
+
+class NoticeBoardDetailAPIView(RetrieveUpdateDestroyAPIView):
+    queryset = NoticeBoard.objects.all()
+    serializer_class = NoticeDetailSerializer
+    lookup_field = "pk"
+
+    def get_object(self):
+        board_pk = self.kwargs.get("pk")
+        try:
+            return NoticeBoard.objects.get(pk=board_pk)
+        except NoticeBoard.DoesNotExist:
+            raise NotFound("요청한 공지사항이 없습니다.")
+
+    def perform_update(self, serializer):
+        instance = self.get_object()
+        if instance.user != self.request.user:
+            raise PermissionDenied("이 공지사항을 수정할 권한이 없습니다.")
+        serializer.save()
+
+    def perform_destroy(self, instance):
+        if instance.user != self.request.user:
+            raise PermissionDenied("이 공지사항을 삭제할 권한이 없습니다.")
         instance.delete()
 
 
