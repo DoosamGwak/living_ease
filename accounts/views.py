@@ -31,9 +31,11 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        username = request.data["username"]
-        password = request.data["password"]
-        user = authenticate(username=username, password=password)
+        email = request.data.get("email")
+        password = request.data.get("password")
+        if not email or not password:
+            raise ValidationError("이메일과 비밀번호를 모두 입력해야 합니다.")
+        user = authenticate(email=email, password=password)
         if user is not None:
 
             refresh = RefreshToken.for_user(user)
@@ -51,8 +53,6 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-        self.per
-
         data = request.data
         if not "refresh" in data:
             raise ValidationError({"msg": "refresh_token 값을 입력해주세요."})
@@ -69,6 +69,7 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
+    lookup_field="nickname"
 
 
 class UserDeleteView(UpdateAPIView):
