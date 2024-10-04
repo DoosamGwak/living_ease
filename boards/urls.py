@@ -20,6 +20,7 @@ urlpatterns = [
     path("customer_service/howtouse/",views.HowtouseListAPIView.as_view(),name="howtouse_list"),
     path("customer_service/directmsg/",views.DirectmsgListAPIView.as_view(),name="directmsg_list"),
     path("<int:board_pk>/", views.BoardDetailAPIView.as_view(), name="board_detail"),
+    path("notice/<int:noticeboard_pk>/",views.NoticeDetailAPIView.as_view(),name="notice_detail"),
     path(
         "<int:board_pk>/comments/",
         views.CommentListAPIView.as_view(),
