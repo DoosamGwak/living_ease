@@ -28,12 +28,12 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 OPENAI_API_KEY = env("GPT_SECRET_KEY")
-DATA_API_KEY =env("DATA_API_KEY")
+DATA_API_KEY = env("DATA_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1","localhost","3.38.151.43"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43"]
 
 
 # Application definition
@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'storages',
     "django_filters",
-
     # project app
     "accounts",
     "pets",
@@ -61,6 +60,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -69,6 +69,12 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+CORS_ALLOWED_ORIGIN_REGEXES = [
+    r"^http:\/\/localhost:*([0-9]+)?$",
+]
+
 
 ROOT_URLCONF = "petmily.urls"
 
@@ -157,8 +163,18 @@ USE_I18N = True
 USE_TZ = True
 
 
+# AWS Setting
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 생성한 버킷 이름
+AWS_REGION = env("AWS_REGION")  # AWS서버의 지역
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")  # 액서스 키 PW
+
+# 버킷이름.s3.AWS서버지역.amazonaws.com 형식
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
+
 
 AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 생성한 버킷 이름
 AWS_REGION = env("AWS_REGION")  # AWS서버의 지역

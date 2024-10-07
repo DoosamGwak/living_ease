@@ -31,11 +31,13 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
+
         email = request.data.get("email")
         password = request.data.get("password")
         if not email or not password:
             raise ValidationError("이메일과 비밀번호를 모두 입력해야 합니다.")
         user = authenticate(email=email, password=password)
+
         if user is not None:
 
             refresh = RefreshToken.for_user(user)
