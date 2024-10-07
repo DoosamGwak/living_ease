@@ -1,13 +1,6 @@
 from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from .serializers import (
-    UserSerializer,
-    UserPofileSerializer,
-    UserDeleteSerializer,
-    PasswordChangeSerializer,
-)
-from .models import User
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
@@ -15,6 +8,13 @@ from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.exceptions import TokenError
+from .models import User
+from .serializers import (
+    UserSerializer,
+    UserPofileSerializer,
+    UserDeleteSerializer,
+    PasswordChangeSerializer,
+)
 
 
 class SignupView(CreateAPIView):
@@ -31,10 +31,13 @@ class LoginView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        email = request.data["email"]
-        password = request.data["password"]
+
+        email = request.data.get("email")
+        password = request.data.get("password")
+        if not email or not password:
+            raise ValidationError("이메일과 비밀번호를 모두 입력해야 합니다.")
         user = authenticate(email=email, password=password)
-        print(email, password, user)
+
         if user is not None:
 
             refresh = RefreshToken.for_user(user)
@@ -43,7 +46,10 @@ class LoginView(APIView):
                 {
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
-                }
+                    "email": user.email,
+                    "nickname": user.nickname
+                    }
+                
             )
         return Response(
             {"error": "로그인에 실패하였습니다"}, status=status.HTTP_400_BAD_REQUEST
@@ -52,7 +58,6 @@ class LoginView(APIView):
 
 class LogoutView(APIView):
     def post(self, request):
-
         data = request.data
         if not "refresh" in data:
             raise ValidationError({"msg": "refresh_token 값을 입력해주세요."})
@@ -69,6 +74,7 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
+    lookup_field="nickname"
 
 
 class UserDeleteView(UpdateAPIView):
