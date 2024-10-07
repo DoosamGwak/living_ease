@@ -15,7 +15,6 @@ from datetime import timedelta
 import os
 import environ
 
-
 env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -53,9 +52,12 @@ INSTALLED_APPS = [
     "rest_framework_simplejwt.token_blacklist",
     'corsheaders',
     'storages',
+    "django_filters",
+
     # project app
     "accounts",
     "pets",
+    "boards",
 ]
 
 MIDDLEWARE = [
@@ -101,6 +103,7 @@ DATABASES = {
 
 
 AUTH_USER_MODEL = "accounts.User"
+AUTHENTICATION_BACKENDS=['accounts.auth_backends.EmailBackend']
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -180,3 +183,4 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
