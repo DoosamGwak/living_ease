@@ -82,7 +82,6 @@ class BoardDetailSerializer(serializers.ModelSerializer):
 
 class NoticeCreateSerializer(BoardCreateSerializer):
     priority = serializers.IntegerField(default=1)
-
     class Meta(BoardCreateSerializer.Meta):
         model = NoticeBoard
         fields = BoardCreateSerializer.Meta.fields + ["priority"]
