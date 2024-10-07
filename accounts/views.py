@@ -6,7 +6,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.views import APIView
 from django.contrib.auth import authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework.exceptions import ValidationError
+from rest_framework.exceptions import ValidationError, PermissionDenied, NotFound
 from rest_framework_simplejwt.exceptions import TokenError
 from .models import User
 from .serializers import (
@@ -36,23 +36,29 @@ class LoginView(APIView):
         password = request.data.get("password")
         if not email or not password:
             raise ValidationError("이메일과 비밀번호를 모두 입력해야 합니다.")
-        user = authenticate(email=email, password=password)
-
-        if user is not None:
-
-            refresh = RefreshToken.for_user(user)
-
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
             return Response(
-                {
-                    "refresh": str(refresh),
-                    "access": str(refresh.access_token),
-                    "email": user.email,
-                    "nickname": user.nickname
-                    }
-                
+                {"error": "등록되지 않은 이메일입니다."},
+                status=status.HTTP_400_BAD_REQUEST,
             )
+        user = authenticate(username=email, password=password)
+
+        if user is None:
+            return Response(
+                {"error": "이메일과 비밀번호를 다시 확인해주세요."}, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        refresh = RefreshToken.for_user(user)
+
         return Response(
-            {"error": "로그인에 실패하였습니다"}, status=status.HTTP_400_BAD_REQUEST
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "email": user.email,
+                "nickname": user.nickname,
+            }
         )
 
 
@@ -74,7 +80,29 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
-    lookup_field="nickname"
+    lookup_field = "nickname"
+
+    def get_serializer(self, *args, **kwargs):
+        kwargs["partial"] = True
+        return super(UserProfileView, self).get_serializer(*args, **kwargs)
+
+    def get_object(self):
+        nickname = self.kwargs.get(self.lookup_field)
+        try:
+            user = self.queryset.get(nickname=nickname)
+
+            if not user.is_active:
+                raise PermissionDenied("탈퇴한 계정입니다.")
+
+            return user
+        except User.DoesNotExist:
+            raise NotFound("해당 닉네임의 사용자를 찾을 수 없습니다.")
+
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        if request.user != user:
+            raise PermissionDenied("자신의 프로필만 수정할 수 있습니다.")
+        return super().update(request, *args, **kwargs)
 
 
 class UserDeleteView(UpdateAPIView):
@@ -84,7 +112,17 @@ class UserDeleteView(UpdateAPIView):
         return self.request.user
 
     def perform_update(self, serializer):
+        user = self.get_object()
+        if user != self.request.user:
+            raise PermissionDenied("권한이 없습니다")
+        serializer.save(is_active=False)
         user = serializer.save(is_active=False)
+
+    def update(self, request, *args, **kwargs):
+        response = super().update(request, *args, **kwargs)
+        return Response(
+            {"message": "회원탈퇴에 성공하였습니다."}, status=status.HTTP_200_OK
+        )
 
 
 class ChangePasswordView(UpdateAPIView):
