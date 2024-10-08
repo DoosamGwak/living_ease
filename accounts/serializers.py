@@ -1,17 +1,25 @@
 
 from rest_framework import serializers
 from .models import User
-from .validators import CustomProfileDeleteValidator, OldPasswordValidator
+from .validators import CustomProfileDeleteValidator, OldPasswordValidator, PasswordValidator
 
 
-
-
-
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer, PasswordValidator):
     password = serializers.CharField(write_only=True)
+    password2 = serializers.CharField(write_only=True)
+
     class Meta:
         model = User
-        fields = ["email", "password", "nickname", "name","age", "gender", "profile_image"]
+        fields = ["email", "password", "password2", "nickname", "name", "age", "gender", "profile_image"]
+
+    def validate(self, attrs):
+        self.validate_password_check(attrs['password'], attrs['password2'])
+        return attrs
+
+    def create(self, validated_data):
+        validated_data.pop('password2')
+        user = User.objects.create_user(**validated_data)
+        return user
 
 
 class UserPofileSerializer(serializers.ModelSerializer):
