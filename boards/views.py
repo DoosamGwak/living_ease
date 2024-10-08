@@ -1,5 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .filters import BoardFilter, NoticeBoardFilter
@@ -154,7 +156,7 @@ class SuppliesListAPIView(ListCreateAPIView):
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        category = get_category("suppplies")
+        category = get_category("supplies")
         serializer.save(user=self.request.user, category=category)
 
 
@@ -170,6 +172,9 @@ class NoticeListAPIView(ListCreateAPIView):
         
     def post(self, request, *args, **kwargs):
         self.serializer_class = NoticeCreateSerializer
+        priority = request.data.get('priority')
+        if int(priority) < 1:
+            raise ValidationError("우선순위 값은 1부터 입력 가능합니다.")
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -225,6 +230,7 @@ class DirectmsgListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_class = BoardFilter
+    permission_classes=[IsAuthenticated]
 
     def get_queryset(self):
         childcategory = get_category("directmsg")
@@ -244,11 +250,17 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Board.objects.all()
     serializer_class = BoardDetailSerializer
     lookup_field = "pk"
+    
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(BoardDetailAPIView, self).get_serializer(*args, **kwargs)
 
     def get_object(self):
         board_pk = self.kwargs.get("board_pk")
         try:
-            return Board.objects.get(pk=board_pk)
+            board = Board.objects.get(pk=board_pk)
+            if board.category.parent_id == 3 and board.user != self.request.user:
+                raise PermissionDenied("이 게시글을 볼 권한이 없습니다.")
         except Board.DoesNotExist:
             raise NotFound("요청한 게시글이 없습니다.")
 
@@ -267,6 +279,10 @@ class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
     queryset = NoticeBoard.objects.all()
     serializer_class = NoticeDetailSerializer
     lookup_field = "noticeboard_pk"
+    
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(NoticeDetailAPIView, self).get_serializer(*args, **kwargs)
 
     def get_object(self):
         board_pk = self.kwargs.get("noticeboard_pk")
@@ -279,7 +295,6 @@ class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         if instance.user != self.request.user:
             raise PermissionDenied("이 공지사항을 수정할 권한이 없습니다.")
-        serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
@@ -303,7 +318,9 @@ class CommentListAPIView(ListCreateAPIView):
 
     def perform_create(self, serializer):
         board_pk = self.kwargs.get("board_pk")
-        board = self.get_object(pk=board_pk)
+        board = self.get_object()
+        if board.category.parent and board.category.parent.pk == 3:
+            raise PermissionDenied("이 게시글에는 댓글을 작성할 수 없습니다.")
         comment_author = self.request.user
         serializer.save(board=board, user=comment_author)
 
@@ -311,6 +328,10 @@ class CommentListAPIView(ListCreateAPIView):
 class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = CommentSerializer
     lookup_field = "pk"
+    
+    def get_serializer(self, *args, **kwargs):
+        kwargs['partial'] = True
+        return super(CommentDetailAPIView, self).get_serializer(*args, **kwargs)
 
     def get_queryset(self):
         board_pk = self.kwargs.get("board_pk")
