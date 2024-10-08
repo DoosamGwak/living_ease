@@ -174,7 +174,7 @@ class NoticeListAPIView(ListCreateAPIView):
         self.serializer_class = NoticeCreateSerializer
         priority = request.data.get('priority')
         if int(priority) < 1:
-            raise ValidationError("우선순위 값은 1부터 입력 가능합니다.")
+            raise ValidationError({"detail":"우선순위 값은 1부터 입력 가능합니다."})
         return super().post(request, *args, **kwargs)
 
     def perform_create(self, serializer):
@@ -260,18 +260,18 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
         try:
             board = Board.objects.get(pk=board_pk)
             if board.category.parent_id == 3 and board.user != self.request.user:
-                raise PermissionDenied("이 게시글을 볼 권한이 없습니다.")
+                raise PermissionDenied({"detail":"이 게시글을 볼 권한이 없습니다."})
         except Board.DoesNotExist:
-            raise NotFound("요청한 게시글이 없습니다.")
+            raise NotFound({"detail":"요청한 게시글이 없습니다."})
 
     def perform_update(self, serializer):
         instance = self.get_object()
         if instance.user != self.request.user:
-            raise PermissionDenied("이 게시글을 수정할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 게시글을 수정할 권한이 없습니다."})
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
-            raise PermissionDenied("이 게시글을 삭제할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 게시글을 삭제할 권한이 없습니다."})
         instance.delete()
 
 
@@ -289,16 +289,16 @@ class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
         try:
             return NoticeBoard.objects.get(pk=board_pk)
         except NoticeBoard.DoesNotExist:
-            raise NotFound("요청한 공지사항이 없습니다.")
+            raise NotFound({"detail":"요청한 공지사항이 없습니다."})
 
     def perform_update(self, serializer):
         instance = self.get_object()
         if instance.user != self.request.user:
-            raise PermissionDenied("이 공지사항을 수정할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 공지사항을 수정할 권한이 없습니다."})
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
-            raise PermissionDenied("이 공지사항을 삭제할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 공지사항을 삭제할 권한이 없습니다."})
         instance.delete()
 
 
@@ -314,13 +314,13 @@ class CommentListAPIView(ListCreateAPIView):
         try:
             return Board.objects.get(pk=board_pk)
         except Board.DoesNotExist:
-            raise NotFound("요청한 게시글이 없습니다")
+            raise NotFound({"detail":"요청한 게시글이 없습니다"})
 
     def perform_create(self, serializer):
         board_pk = self.kwargs.get("board_pk")
         board = self.get_object()
         if board.category.parent and board.category.parent.pk == 3:
-            raise PermissionDenied("이 게시글에는 댓글을 작성할 수 없습니다.")
+            raise PermissionDenied({"detail":"이 게시글에는 댓글을 작성할 수 없습니다."})
         comment_author = self.request.user
         serializer.save(board=board, user=comment_author)
 
@@ -342,15 +342,15 @@ class CommentDetailAPIView(RetrieveUpdateDestroyAPIView):
         try:
             return Comment.objects.get(pk=comment_pk)
         except Comment.DoesNotExist:
-            raise NotFound("요청한 댓글이 없습니다.")
+            raise NotFound({"detail":"요청한 댓글이 없습니다."})
 
     def perform_update(self, serializer):
         instance = self.get_object()
         if instance.user != self.request.user:
-            raise PermissionDenied("이 댓글을 수정할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 댓글을 수정할 권한이 없습니다."})
         serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
-            raise PermissionDenied("이 댓글을 삭제할 권한이 없습니다.")
+            raise PermissionDenied({"detail":"이 댓글을 삭제할 권한이 없습니다."})
         instance.delete()
