@@ -21,11 +21,6 @@ class SignupView(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
 
-    def perform_create(self, serializer):
-        user = serializer.save()
-        user.set_password(user.password)
-        user.save()
-
 
 class LoginView(APIView):
     permission_classes = [AllowAny]
