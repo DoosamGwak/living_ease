@@ -3,6 +3,12 @@ from rest_framework.exceptions import ValidationError
 from rest_framework_simplejwt.exceptions import TokenError
 
 
+class PasswordValidator:
+    def validate_password_check(self, password, password2):
+        if password != password2:
+            raise ValidationError(
+                {"msg": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
+            )
 
 
 class CustomProfileDeleteValidator:
@@ -25,6 +31,7 @@ class CustomProfileDeleteValidator:
             raise ValidationError(
                 {"msg": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
             )
+
 
 class OldPasswordValidator:
     def validate_old_password(self, old_password):
