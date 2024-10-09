@@ -700,7 +700,7 @@
     "pk": 14,
     "fields":{
       "QID_id": "7",
-      "content":"인원",
+      "content":"1명",
       "created_at":"2024-10-04 01:03:13.237294"
     }
   },
@@ -926,6 +926,33 @@
     "fields":{
       "QID_id": "16",
       "content":"하루종일",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 40,
+    "fields":{
+      "QID_id": "7",
+      "content":"2명",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 41,
+    "fields":{
+      "QID_id": "7",
+      "content":"3명",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 42,
+    "fields":{
+      "QID_id": "7",
+      "content":"4명 이상",
       "created_at":"2024-10-04 01:03:13.237294"
     }
   },
