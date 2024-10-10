@@ -79,7 +79,7 @@ def center_recommendation(animal_name):
     if DATA_PET.get(animal_name):
         animal_code = DATA_PET[animal_name]
     else:
-        return {"error" : "조회 하려는 견종은 현재 제공하고 있지 않습니다."}
+        return {"detail" : "조회 하려는 견종은 현재 제공하고 있지 않습니다."}
 
     # petcode 조회
     # url = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/kind"
