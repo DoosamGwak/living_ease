@@ -20,13 +20,13 @@ class AIRecoomand(APIView):
     def get(self, request):
         ai_answer = request.user.aihistorys.all()
         if len(ai_answer) == 0:
-            return Response({"error": "추천받은 내용이 없습니다."}, status=400)
+            return Response({"detail": "추천받은 내용이 없습니다."}, status=400)
         ai_answer = ai_answer.last().answer.replace("'", '"')
         return Response(json.loads(ai_answer))
 
     def post(self, request):
         if not request.data or not request.user:
-            return Response({"error": "설문 내용이 비어있습니다."}, status=400)
+            return Response({"detail": "설문 내용이 비어있습니다."}, status=400)
         match = pet_match_bot(request.data, request.user)
         return Response(json.loads(match.content))
 
@@ -36,6 +36,6 @@ class MetchingCenter(APIView):
 
     def get(self, request):
         response = center_recommendation(request.data.get("animal_name"))
-        if response.get("error"):
+        if response.get("detail"):
             return Response(response, status=400)
         return Response(response)

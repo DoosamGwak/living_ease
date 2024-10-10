@@ -1,0 +1,1029 @@
+[
+  {
+    "model": "pets.petcategory",
+    "pk": 1,
+    "fields": {
+      "type": "대형견",
+      "created_at": "2024-09-25 02:28:02.329859",
+      "updated_at": "2024-09-25 02:28:02.329859"
+    }
+  },
+  {
+    "model": "pets.petcategory",
+    "pk": 2,
+    "fields": {
+      "type": "중형견",
+      "created_at": "2024-09-25 02:28:18.146232",
+      "updated_at": "2024-09-25 02:28:18.146232"
+    }
+  },
+  {
+    "model": "pets.petcategory",
+    "pk": 3,
+    "fields": {
+      "type": "소형견",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 1,
+    "fields": {
+      "type": "1",
+      "title": "생활 환경",
+      "content": "현재 거주하고 있는 주거 형태는 무엇인가요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 2,
+    "fields": {
+      "type": "1",
+      "title": "생활 환경",
+      "content": "집의 크기는 어떻게 되나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 3,
+    "fields": {
+      "type": "1",
+      "title": "생활 환경",
+      "content": "집에 정원이 있나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 4,
+    "fields": {
+      "type": "1",
+      "title": "생활 환경",
+      "content": "주변에 산책로가 있나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 5,
+    "fields": {
+      "type": "1",
+      "title": "라이프스타일",
+      "content": "평소 활동 수준은 어떻게 되나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 6,
+    "fields": {
+      "type": "1",
+      "title": "라이프스타일",
+      "content": "평일 근무 시간은 어떻게 되나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 7,
+    "fields": {
+      "type": "1",
+      "title": "가족 구성원",
+      "content": "가족 구성원은 몇 명인가요?",
+      "content_type": "1",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 8,
+    "fields": {
+      "type": "1",
+      "title": "가족 구성원",
+      "content": "어린 자녀가 있나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 9,
+    "fields": {
+      "type": "1",
+      "title": "가족 구성원",
+      "content_type": "4",
+      "content": "다른 반려동물을 키우고 계신가요?",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 10,
+    "fields": {
+      "type": "2",
+      "title": "반려견에 대한 선호도",
+      "content": "선호하는 개의 크기는 어떻게 되나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 11,
+    "fields": {
+      "type": "2",
+      "title": "반려견에 대한 선호도",
+      "content": "짧은 털이나 긴 털 중 어느 것을 선호하시나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 12,
+    "fields": {
+      "type": "2",
+      "title": "반려견에 대한 선호도",
+      "content": "털 빠짐에 있어 민감하신가요?",
+      "content_type": "2",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 13,
+    "fields": {
+      "type": "2",
+      "title": "반려견에 대한 선호도",
+      "content": "반려견 짖음에 대해 민감하신가요?",
+      "content_type": "2",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 14,
+    "fields": {
+      "type": "2",
+      "title": "반려견에 대한 선호도",
+      "content": "반려견 훈련 강도는 어디까지 수용 가능한가요?",
+      "content_type": "2",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 15,
+    "fields": {
+      "type": "2",
+      "title": "개 키우기 경혐",
+      "content": "반려견를 키운 경험이 있나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.question",
+    "pk": 16,
+    "fields": {
+      "type": "2",
+      "title": "돌봄 시간",
+      "content": "하루동안 반려동물에게 얼마만큼의 시간을 할애할 수 있나요?",
+      "content_type": "3",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 1,
+    "fields": {
+      "PCID": "3",
+      "name": "말티즈",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 2,
+    "fields": {
+      "PCID": "3",
+      "name": "말티푸",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 3,
+    "fields": {
+      "PCID": "3",
+      "name": "포메라니안",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 4,
+    "fields": {
+      "PCID": "3",
+      "name": "시츄",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 5,
+    "fields": {
+      "PCID": "3",
+      "name": "요크셔 테리어",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 6,
+    "fields": {
+      "PCID": "3",
+      "name": "비숑 프리제",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 7,
+    "fields": {
+      "PCID": "3",
+      "name": "치와와",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 8,
+    "fields": {
+      "PCID": "3",
+      "name": "푸들",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 9,
+    "fields": {
+      "PCID": "3",
+      "name": "페키니즈",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 10,
+    "fields": {
+      "PCID": "3",
+      "name": "꼬똥드툴레아",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 11,
+    "fields": {
+      "PCID": "3",
+      "name": "파피용",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 12,
+    "fields": {
+      "PCID": "3",
+      "name": "베들링턴 테리어",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 13,
+    "fields": {
+      "PCID": "3",
+      "name": "킹 찰스 스패니얼",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 14,
+    "fields": {
+      "PCID": "3",
+      "name": "스코티쉬 테리어",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 15,
+    "fields": {
+      "PCID": "2",
+      "name": "코카 스패니얼",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 16,
+    "fields": {
+      "PCID": "2",
+      "name": "웰시코기",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 17,
+    "fields": {
+      "PCID": "2",
+      "name": "시바 이누",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 18,
+    "fields": {
+      "PCID": "2",
+      "name": "프렌치 불독",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 19,
+    "fields": {
+      "PCID": "2",
+      "name": "스피츠",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 20,
+    "fields": {
+      "PCID": "2",
+      "name": "비글",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 21,
+    "fields": {
+      "PCID": "2",
+      "name": "이탈리안 그레이하운드",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 22,
+    "fields": {
+      "PCID": "2",
+      "name": "슈나우저",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 23,
+    "fields": {
+      "PCID": "2",
+      "name": "진돗개",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 24,
+    "fields": {
+      "PCID": "2",
+      "name": "보더 콜리",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 25,
+    "fields": {
+      "PCID": "2",
+      "name": "닥스훈트",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 26,
+    "fields": {
+      "PCID": "2",
+      "name": "잉글리쉬 불독",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 27,
+    "fields": {
+      "PCID": "2",
+      "name": "퍼그",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 28,
+    "fields": {
+      "PCID": "2",
+      "name": "베어코트 샤페이",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 29,
+    "fields": {
+      "PCID": "1",
+      "name": "골든 리트리버",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 30,
+    "fields": {
+      "PCID": "1",
+      "name": "래브라도 리트리버",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 31,
+    "fields": {
+      "PCID": "1",
+      "name": "사모예드",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 32,
+    "fields": {
+      "PCID": "1",
+      "name": "시베리안 허스키",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 33,
+    "fields": {
+      "PCID": "1",
+      "name": "도베르만",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 34,
+    "fields": {
+      "PCID": "1",
+      "name": "버니즈 마운틴 독",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 35,
+    "fields": {
+      "PCID": "1",
+      "name": "차우차우",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.petcode",
+    "pk": 36,
+    "fields": {
+      "PCID": "1",
+      "name": "올드 잉글리쉬 쉽독",
+      "created_at": "2024-09-25 02:28:24.194856",
+      "updated_at": "2024-09-25 02:28:24.194856"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 1,
+    "fields":{
+      "QID_id": "1",
+      "content":"아파트",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 2,
+    "fields":{
+      "QID_id": "1",
+      "content":"주택",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 3,
+    "fields":{
+      "QID_id": "2",
+      "content":"작다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 4,
+    "fields":{
+      "QID_id": "2",
+      "content":"중간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 5,
+    "fields":{
+      "QID_id": "2",
+      "content":"크다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 6,
+    "fields":{
+      "QID_id": "3",
+      "content":"있다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 7,
+    "fields":{
+      "QID_id": "3",
+      "content":"없다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 8,
+    "fields":{
+      "QID_id": "4",
+      "content":"있다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 9,
+    "fields":{
+      "QID_id": "4",
+      "content":"없다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 10,
+    "fields":{
+      "QID_id": "5",
+      "content":"적음",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 11,
+    "fields":{
+      "QID_id": "5",
+      "content":"많음",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 12,
+    "fields":{
+      "QID_id": "6",
+      "content":"규칙적인 근무시간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 13,
+    "fields":{
+      "QID_id": "6",
+      "content":"불규칙적인 근무시간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 14,
+    "fields":{
+      "QID_id": "7",
+      "content":"1명",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 15,
+    "fields":{
+      "QID_id": "8",
+      "content":"있다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 16,
+    "fields":{
+      "QID_id": "8",
+      "content":"없다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 17,
+    "fields":{
+      "QID_id": "9",
+      "content":"강아지",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 18,
+    "fields":{
+      "QID_id": "9",
+      "content":"고양이",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 19,
+    "fields":{
+      "QID_id": "9",
+      "content":"새",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 20,
+    "fields":{
+      "QID_id": "9",
+      "content":"기타",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 21,
+    "fields":{
+      "QID_id": "9",
+      "content":"없다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 22,
+    "fields":{
+      "QID_id": "10",
+      "content":"소형견",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 23,
+    "fields":{
+      "QID_id": "10",
+      "content":"중형견",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 24,
+    "fields":{
+      "QID_id": "10",
+      "content":"대형견",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 25,
+    "fields":{
+      "QID_id": "11",
+      "content":"짧은 털",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 26,
+    "fields":{
+      "QID_id": "11",
+      "content":"긴 털",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 27,
+    "fields":{
+      "QID_id": "12",
+      "content":"둔감함",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 28,
+    "fields":{
+      "QID_id": "12",
+      "content":"민감함",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 29,
+    "fields":{
+      "QID_id": "13",
+      "content":"둔감함",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 30,
+    "fields":{
+      "QID_id": "13",
+      "content":"민감함",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 31,
+    "fields":{
+      "QID_id": "14",
+      "content":"저강도",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 32,
+    "fields":{
+      "QID_id": "14",
+      "content":"고강도",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 33,
+    "fields":{
+      "QID_id": "15",
+      "content":"있다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 34,
+    "fields":{
+      "QID_id": "15",
+      "content":"없다",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 35,
+    "fields":{
+      "QID_id": "16",
+      "content":"30분",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 36,
+    "fields":{
+      "QID_id": "16",
+      "content":"1~2시간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 37,
+    "fields":{
+      "QID_id": "16",
+      "content":"5~6시간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 38,
+    "fields":{
+      "QID_id": "16",
+      "content":"10시간",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 39,
+    "fields":{
+      "QID_id": "16",
+      "content":"하루종일",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 40,
+    "fields":{
+      "QID_id": "7",
+      "content":"2명",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 41,
+    "fields":{
+      "QID_id": "7",
+      "content":"3명",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "pets.choice",
+    "pk": 42,
+    "fields":{
+      "QID_id": "7",
+      "content":"4명 이상",
+      "created_at":"2024-10-04 01:03:13.237294"
+    }
+  },
+  {
+    "model": "boards.category",
+    "id": 1,
+    "fields": {"name": "community", "parent_id":null}
+  },
+  {
+    "model": "boards.category",
+    "id": 2,
+    "fields": {"name": "info", "parent_id":null}
+  },
+  {
+    "model": "boards.category",
+    "id": 3,
+    "fields": {"name": "customer_service", "parent_id":null}
+  },
+  {
+    "model": "boards.category",
+    "id": 4,
+    "fields": {"name": "tip", "parent_id":1}
+  },
+  {
+    "model": "boards.category",
+    "id": 5,
+    "fields": {"name": "walkingmate", "parent_id":1}
+  },
+  {
+    "model": "boards.category",
+    "id": 6,
+    "fields": {"name": "etc", "parent_id":1}
+  },
+  {
+    "model": "boards.category",
+    "id": 7,
+    "fields": {"name": "vaccine", "parent_id":2}
+  },
+  {
+    "model": "boards.category",
+    "id": 8,
+    "fields": {"name": "training", "parent_id":2}
+  },
+  {
+    "model": "boards.category",
+    "id": 9,
+    "fields": {"name": "healthyfood", "parent_id":2}
+  },
+  {
+    "model": "boards.category",
+    "id": 10,
+    "fields": {"name": "supplies", "parent_id":2}
+  },
+  {
+    "model": "boards.category",
+    "id": 11,
+    "fields": {"name": "notice", "parent_id":3}
+  },
+  {
+    "model": "boards.category",
+    "id": 12,
+    "fields": {"name": "faq", "parent_id":3}
+  },
+  {
+    "model": "boards.category",
+    "id": 13,
+    "fields": {"name": "howtouse", "parent_id":3}
+  },
+  {
+    "model": "boards.category",
+    "id": 14,
+    "fields": {"name": "directmsg", "parent_id":3}
+  }
+]
