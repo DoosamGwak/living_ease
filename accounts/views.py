@@ -47,9 +47,8 @@ class LoginView(APIView):
                     "refresh": str(refresh),
                     "access": str(refresh.access_token),
                     "email": user.email,
-                    "nickname": user.nickname
-                    }
-                
+                    "nickname": user.nickname,
+                }
             )
         return Response(
             {"error": "로그인에 실패하였습니다"}, status=status.HTTP_400_BAD_REQUEST
@@ -74,7 +73,7 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
-    lookup_field="nickname"
+    lookup_field = "nickname"
 
 
 class UserDeleteView(UpdateAPIView):
