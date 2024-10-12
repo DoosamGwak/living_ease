@@ -16,16 +16,30 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 
+# for social-login
+from accounts.views import GoogleLogin
+
+# , GoogleLoginCallback
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/pets/", include("pets.urls")),
     path("api/v1/boards/", include("boards.urls")),
+    # for social-login
+    path("api/v1/auth/", include("dj_rest_auth.urls")),
+    re_path(r"^api/v1/auth/accounts/", include("allauth.urls")),
+    path("api/v1/auth/registration/", include("dj_rest_auth.registration.urls")),
+    path("api/v1/auth/google/", GoogleLogin.as_view(), name="google_login"),
+    # path(
+    #     "api/v1/auth/google-callback/",
+    #     GoogleLoginCallback.as_view(),
+    #     name="google_login_callback",
+    # ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

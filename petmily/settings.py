@@ -53,6 +53,14 @@ INSTALLED_APPS = [
     "corsheaders",
     "storages",
     "django_filters",
+    # for social-login
+    "django.contrib.sites",
+    "rest_framework.authtoken",
+    "allauth",
+    "allauth.account",
+    "dj_rest_auth.registration",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     # project app
     "accounts",
     "pets",
@@ -68,8 +76,20 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    # for social-login
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
+# for social-login
+# django.contrib.sites
+SITE_ID = 1
+GOOGLE_OAUTH_CLIENT_ID = env("GOOGLE_OAUTH_CLIENT_ID")
+GOOGLE_OAUTH_CLIENT_SECRET = env("GOOGLE_OAUTH_CLIENT_SECRET")
+GOOGLE_OAUTH_CALLBACK_URL = env("GOOGLE_OAUTH_CALLBACK_URL")
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
+}
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
     r"^http:\/\/localhost:*([0-9]+)?$",
@@ -82,7 +102,7 @@ ROOT_URLCONF = "petmily.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -129,6 +149,33 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+
+# for social-login
+ACCOUNT_AUTHENTICATION_METHOD = "email"  # Use Email / Password authentication
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"  # Do not require email confirmation
+
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+# Connect local account and social account if local account with that email address already exists
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APPS": [
+            {
+                "client_id": GOOGLE_OAUTH_CLIENT_ID,
+                "secret": GOOGLE_OAUTH_CLIENT_SECRET,
+                "key": "",
+            },
+        ],
+        "SCOPE": ["profile", "email"],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+    }
+}
 
 
 REST_FRAMEWORK = {
