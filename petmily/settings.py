@@ -102,11 +102,21 @@ WSGI_APPLICATION = "petmily.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "server":{
+        "ENGINE": env("DB_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER" : env("DB_USER"),
+        "PASSWORD" : env("DB_PSSWORD"),
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT")
     }
+
 }
+DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
