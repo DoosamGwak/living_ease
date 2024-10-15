@@ -47,7 +47,6 @@ class NoticeBoard(Board):
 
 class BoardImage(TimeStampedModel):
     board = models.ForeignKey(Board, on_delete=models.CASCADE, related_name="board_images")
-    noticeboard = models.ForeignKey(NoticeBoard, on_delete=models.CASCADE, related_name="noticeboard_images")
     image = models.ImageField(upload_to="boards/", null=True, blank=True)
 
     def __str__(self):
