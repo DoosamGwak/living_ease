@@ -5,6 +5,7 @@ import json
 import requests
 from .models import PetCode, Answer, AIHistory, Question
 from .data_petcode import DATA_PET
+from .gecode import SIDOGUN
 
 CLIENT = OpenAI(api_key=settings.OPENAI_API_KEY)
 DATA = settings.DATA_API_KEY
@@ -75,7 +76,9 @@ def pet_match_bot(datas, userinfo):
     return completion.choices[0].message
 
 
-def center_recommendation(animal_name):
+def center_recommendation(data):
+    animal_name = data.get("animal_name")
+    page = data.get("page") if  data.get("page") else 1
     if DATA_PET.get(animal_name):
         animal_code = DATA_PET[animal_name]
     else:
@@ -89,17 +92,30 @@ def center_recommendation(animal_name):
 
     # petcode를 통한 상세조회
     url = "http://apis.data.go.kr/1543061/abandonmentPublicSrvc/abandonmentPublic"
-    params ={"serviceKey" : DATA,  "upkind" : "417000", "kind" : animal_code, "state" : "notice", "_type" : "json" }
+    params ={"serviceKey" : DATA,  "upkind" : "417000", "kind" : animal_code, "state" : "notice", "_type" : "json","numOfRows": 5, "pageNo":page }
+    if data.get("address"):
+        check_address = data.get("address").split()
+        params["upr_cd"] = SIDOGUN[check_address[0]]["uprCd"]
+        if check_address[0][-1] == "도":
+            params["org_cd"] = SIDOGUN[check_address[0]][check_address[1]]["orgCd"]
+
     response = requests.get(url, params=params)
 
     answer = json.loads(response.text)["response"]["body"]["items"]
-    for i, k in enumerate(answer["item"]):
-        answer["item"][i]= {
-            "name": animal_name,
-            "popfile": k.get("popfile"),
-            "age": k.get("age"),
-            "sexCd": k.get("sexCd"),
-            "careNm":  k.get("careNm")
+    answer["pageNo"] = json.loads(response.text)["response"]["body"]["pageNo"]
+    answer["totalCount"] = json.loads(response.text)["response"]["body"]["totalCount"]
+    if len(answer) > 0:
+        for i, k in enumerate(answer["item"]):
+            answer["item"][i]= {
+                "name": animal_name,
+                "popfile": k.get("popfile"),
+                "age": k.get("age"),
+                "sexCd": k.get("sexCd"),
+                "careNm":  k.get("careNm")
+            }
+    else:
+        answer = {
+            "detail": "해당 견종은 현재 해당 지역에 공고중이 아닙니다."
         }
 
     return answer
