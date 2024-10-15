@@ -10,18 +10,34 @@ class BoardImageSerializer(serializers.ModelSerializer):
 
 class BoardListSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source="user.nickname", read_only=True)
+    content_snippet = serializers.SerializerMethodField()
 
     class Meta:
-        model = NoticeBoard
-        fields = ["id", "title", "nickname"]
-        
+        model = Board
+        fields = ["id", "title", "content_snippet", "nickname", "created_at"]
+
+    def get_content_snippet(self, obj):
+        specific_categories = ["faq", "howtouse", "directmsg"]
+        if obj.category.name in specific_categories:
+            return " ".join(obj.content.split()[:30]) + "..." if obj.content else ""
+        return obj.content
+
+
+class CommunityListSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
+    category_name = serializers.CharField(source="category.name", read_only=True)
+
+    class Meta:
+        model = Board
+        fields = ["id", "title", "created_at", "nickname", "category_name"]
+
 
 class NoticeListSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = NoticeBoard
-        fields = ["id", "title", "nickname"]
+        fields = ["id", "title", "nickname", "created_at"]
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
@@ -38,6 +54,29 @@ class BoardCreateSerializer(serializers.ModelSerializer):
         for image_data in images_data.getlist("image"):
             BoardImage.objects.create(board=board, image=image_data)
         return board
+
+
+class CommunityCreateSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
+    images = BoardImageSerializer(many=True, read_only=True)
+    class Meta:
+        model = Board
+        fields = ["title", "content", "nickname","images", "category"]
+    
+    def create(self, validated_data):
+        images_data = self.context["request"].FILES
+        board = Board.objects.create(**validated_data)
+        for image_data in images_data.getlist("image"):
+            BoardImage.objects.create(board=board, image=image_data)
+        return board
+
+    def validate_category(self, value):
+        community_category = Category.objects.get(name="community")
+        if value.parent != community_category:
+            raise serializers.ValidationError(
+                "detail: 유효한 커뮤니티 하위 카테고리를 선택해주세요."
+            )
+        return value
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -82,6 +121,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
 
 class NoticeCreateSerializer(BoardCreateSerializer):
     priority = serializers.IntegerField(default=1)
+
     class Meta(BoardCreateSerializer.Meta):
         model = NoticeBoard
         fields = BoardCreateSerializer.Meta.fields + ["priority"]
