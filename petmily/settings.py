@@ -33,7 +33,7 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203"]
 
 
 # Application definition
@@ -72,9 +72,15 @@ MIDDLEWARE = [
 ]
 
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http:\/\/localhost:*([0-9]+)?$",
-]
+if DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/localhost:*([0-9]+)?$",
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/petmily\.info$",
+        r"^https:\/\/petmily\.info$",
+    ]
 
 
 ROOT_URLCONF = "petmily.urls"
@@ -102,11 +108,21 @@ WSGI_APPLICATION = "petmily.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "server":{
+        "ENGINE": env("DB_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER" : env("DB_USER"),
+        "PASSWORD" : env("DB_PSSWORD"),
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT")
     }
+
 }
+DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
