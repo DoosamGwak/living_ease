@@ -31,12 +31,3 @@ class CustomProfileDeleteValidator:
             raise ValidationError(
                 {"detail": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
             )
-
-
-class OldPasswordValidator:
-    def validate_old_password(self, old_password):
-        user = self.context["request"].user
-        if not user.check_password(old_password):
-            raise ValidationError(
-                {"detail": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
-            )

@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import User
 from .validators import (
     CustomProfileDeleteValidator,
-    OldPasswordValidator,
     PasswordValidator,
 )
 
@@ -72,7 +71,7 @@ class UserDeleteSerializer(CustomProfileDeleteValidator, serializers.ModelSerial
         fields = ["check_password", "refresh"]
 
 
-class PasswordChangeSerializer(OldPasswordValidator, serializers.ModelSerializer):
+class PasswordChangeSerializer(serializers.ModelSerializer):
     old_password = serializers.CharField(required=True, write_only=True)
     new_password = serializers.CharField(required=True, write_only=True)
     check_password = serializers.CharField(required=True, write_only=True)
