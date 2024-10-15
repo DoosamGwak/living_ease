@@ -102,16 +102,17 @@ def center_recommendation(data):
     response = requests.get(url, params=params)
 
     answer = json.loads(response.text)["response"]["body"]["items"]
-    answer["pageNo"] = json.loads(response.text)["response"]["body"]["pageNo"]
-    answer["totalCount"] = json.loads(response.text)["response"]["body"]["totalCount"]
     if len(answer) > 0:
+        answer["pageNo"] = json.loads(response.text)["response"]["body"]["pageNo"]
+        answer["totalCount"] = json.loads(response.text)["response"]["body"]["totalCount"]
         for i, k in enumerate(answer["item"]):
             answer["item"][i]= {
                 "name": animal_name,
                 "popfile": k.get("popfile"),
                 "age": k.get("age"),
                 "sexCd": k.get("sexCd"),
-                "careNm":  k.get("careNm")
+                "careNm":  k.get("careNm"),
+                "careAddr":k.get("careAddr")
             }
     else:
         answer = {
