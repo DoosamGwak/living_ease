@@ -33,7 +33,7 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203"]
 
 
 # Application definition
@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    'corsheaders',
-    'storages',
+    "corsheaders",
+    "storages",
     "django_filters",
     # project app
     "accounts",
@@ -105,15 +105,25 @@ WSGI_APPLICATION = "petmily.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "server":{
+        "ENGINE": env("DB_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER" : env("DB_USER"),
+        "PASSWORD" : env("DB_PSSWORD"),
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT")
     }
+
 }
+DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
-AUTHENTICATION_BACKENDS=['accounts.auth_backends.EmailBackend']
+AUTHENTICATION_BACKENDS = ["accounts.auth_backends.EmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -203,4 +213,3 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
