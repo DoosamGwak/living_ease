@@ -89,7 +89,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class BoardDetailSerializer(serializers.ModelSerializer):
-    images = BoardImageSerializer(many=True, read_only=True)
+    images = BoardImageSerializer(source="board_images", many=True, read_only=True)
     nickname = serializers.CharField(source="user.nickname", read_only=True)
     comments = CommentSerializer(many=True, read_only=True)
     comments_count = serializers.IntegerField(source="comments.count", read_only=True)
