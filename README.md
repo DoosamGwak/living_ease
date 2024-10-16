@@ -83,9 +83,9 @@
    - 유저 로그인 username -> email 수정(10.03~10.07)
   - 게시판 : 정순겸(09.30~10.03)
   - 반려동물 : 서영환(09.25)
-    - 반려동물 정보 업데이트:
-    - 질문 내역 리스트 등록:
-    - 공공데이터 연동:
+    - 반려동물 정보 업데이트: 09.30~10.04
+    - 질문 내역 리스트 등록: 09.26
+    - 공공데이터 연동:09.30
   - 사이트 전체적인 디자인 & 퍼블리싱: 김민주(09.25~ )
   - 사이트 프론트앤드: 이승주(09.25 ~)
 
@@ -97,15 +97,61 @@
   <br/>
 
 ## 와이어프레임
-  - ...
+  - https://www.figma.com/design/MvimuTCaSI8T7lwm6HIwnh/Mobile-Apps-%E2%80%93-Prototyping-Kit-(Community)?node-id=1202-5914&node-type=frame&t=G9RxJyMQiWuYX3ps-0
 
 
   <br/>
 
 ## ERD
-  - ...
+  - https://drive.google.com/file/d/1Szog6Wzq7f-LkayrjAXwhTsRMK6ynktA/view?usp=sharing
 
 
 
-## API 문서
-  - ...
+## API Reference
+## API 엔드포인트 정보
+
+| **카테고리**          | **엔드포인트**                      | **메서드** | **설명**                          |
+|-----------------------|-------------------------------------|------------|-----------------------------------|
+| **유저**              | `/api/v1/accounts/login/`               | POST       | 로그인                           |
+|                       | `/api/v1/accounts/logout/`              | POST       | 로그아웃                         |
+|                       | `/api/v1/accounts/<str:nickname>/`             | GET        | 프로필 조회                      |
+|                       | `/api/v1/accounts/<str:nickname>/`             | PUT        | 프로필 수정                      |
+|                       | `/api/v1/accounts/signup/`            | POST       | 회원 가입                        |
+|                       | `/api/v1/accounts/delete/`              | PUT     | 회원 탈퇴                        |
+|                       | `/api/v1/accounts/refresh/`              | POST     | 토큰 재발급                        |
+|                       | `/api/v1/accounts/password/`              | POST     | 비밀번호 변경                        |
+| **반려동물**          | `/api/v1/pets/questions/`            | GET        | 질문 리스트 조회                 |
+|                       | `/api/v1/pets/recommands/`      | GET        | 유저 맞춤형 반려견 추천 조회   |
+|                       | `/api/v1/pets/recommands/`      | POST        | 유저 맞춤형 반려견 추천   |
+|                       | `/api/v1/pets/metching-center/`       | GET        | 입양 경로 추천            |
+| **커뮤니티**          | `/api/v1/boards/community/etc/`           | GET       | 자유글 목록 조회                 |
+|                       | `/api/v1/boards/community/etc/`      | POST        | 자유글 등록                  |
+|                       | `/api/v1/boards/community/walkingmate/`      | GET     | 워킹메이트 목록 조회                  |
+|                       | `/api/v1/boards/community/walkingmate/`           | POST        | 워킹메이트 등록             |
+|                       | `/api/v1/boards/community/tip/`      | GET     | 꿀팁 목록 조회                  |
+|                       | `/api/v1/boards/community/tip/`           | POST        | 꿀팁 등록             |
+| **정보게시판**          | `api/v1/boards/info/vaccine/`           | GET       | 예방접종 목록 조회                 |
+|                       | `api/v1/boards/info/vaccine/`      | POST        | 예방접종 등록                  |
+|                       | `api/v1/boards/info/training/`      | GET     | 훈련법 목록 조회                  |
+|                       | `api/v1/boards/info/training/`           | POST        | 훈련법 등록             |
+|                       | `api/v1/boards/info/supplies/`      | GET     | 용품 목록 조회                  |
+|                       | `api/v1/boards/info/supplies/`           | POST        | 용품 등록             |
+|                       | `api/v1/boards/info/healthyfood/`      | GET     | 식단 목록 조회                  |
+|                       | `api/v1/boards/info/healthyfood/`           | POST        | 식단 등록             |
+| **고객지원**          | `/api/v1/boards/customer_service/faq/`         | GET       | 공통FAQ 조회                   |
+|                       | `/api/v1/boards/customer_service/faq/`    | POST        | 공통FAQ 등록                  |
+|                       | `/api/v1/boards/customer_service/howtouse/`    | GET     | 홈페이지 이용방법 조회                   |
+|                       | `/api/v1/boards/customer_service/howtouse/`         | POST        | 홈페이지 이용방법 등록              |
+|                       | `/api/v1/boards/customer_service/directmsg/`    | GET        | 1:1문의 조회              |
+|                       | `/api/v1/boards/customer_service/directmsg/`    | POST        | 1:1문의 등록              |
+| **게시판공통**          | `/api/v1/boards/{int:board_pk}/`    | GET        | 게시판 상세조회              |
+|                       | `/api/v1/boards/{int:board_pk}/`    | PUT        | 게시판 수정              |
+| **공지사항**          | `/api/v1/boards/notice/{int:noticeboard_pk}/`                   | PUT        | 공지사항 수정          |
+|                       | `/api/v1/boards/customer_service/notice/`              | GET        | 공지사항 목록 조회               |
+|                       | `/api/v1/boards/customer_service/notice/`          | POST        | 공지사항 등록               |
+|                       | `/api/v1/boards/notice/{int:noticeboard_pk}/`          | GET        | 공지사항 상세조회               |
+|                       | `/api/v1/boards/notice/{int:noticeboard_pk}/`          | DELETE        | 공지사항 삭제               |
+| **댓글**              | `/api/v1/boards/{int:board_pk}/comments/`                  | POST       | 댓글 등록               |
+|                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | PUT        | 댓글 수정               |
+|                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | DELETE     | 댓글 삭제               |
+|                       | `/api/v1/boards/{int:board_pk}/comments/`             | GET     | 댓글 조회               |

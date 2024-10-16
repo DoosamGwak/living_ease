@@ -71,12 +71,15 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http:\/\/localhost:*([0-9]+)?$",
-    r"^http:\/\/13.125.10.203.*",
-]
-
+if DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/localhost:*([0-9]+)?$",
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/petmily\.info$",
+        r"^https:\/\/petmily\.info$",
+    ]
 
 ROOT_URLCONF = "petmily.urls"
 
