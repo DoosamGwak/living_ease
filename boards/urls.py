@@ -4,6 +4,7 @@ from django.conf import settings
 from . import views
 
 urlpatterns = [
+    path("community/", views.CommunityListAPIView.as_view(), name="community_list"),
     path("community/tip/", views.TipListAPIView.as_view(), name="tip_list"),
     path("community/walkingmate/",views.WalkingmateListAPIView.as_view(),name="walkingmate_list"),
     path("community/etc/", views.EtcListAPIView.as_view(), name="etc_list"),

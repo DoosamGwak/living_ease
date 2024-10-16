@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .filters import BoardFilter, NoticeBoardFilter
+from .filters import BoardFilter, NoticeBoardFilter, CommunityBoardFilter
 from .models import Board, NoticeBoard, Comment, Category
 from .permissions import IsStaffOrReadOnly
 from .serializers import (
@@ -15,6 +15,8 @@ from .serializers import (
     BoardDetailSerializer,
     NoticeDetailSerializer,
     CommentSerializer,
+    CommunityCreateSerializer,
+    CommunityListSerializer,
 )
 
 
@@ -24,6 +26,23 @@ def get_category(category_name):
     except Category.DoesNotExist:
         raise NotFound("요청한 페이지가 없습니다.")
 
+class CommunityListAPIView(ListCreateAPIView):
+    serializer_class = CommunityListSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = CommunityBoardFilter
+    
+    def get_queryset(self):
+        community_category = Category.objects.get(name="community")
+        child_categories = community_category.childcategories.all()
+        return Board.objects.filter(category__in=child_categories).order_by("-created_at")
+
+    def post(self, request, *args, **kwargs):
+        self.serializer_class = CommunityCreateSerializer
+        return super().post(request, *args, **kwargs)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+    
 
 class TipListAPIView(ListCreateAPIView):
     serializer_class = BoardListSerializer
@@ -261,6 +280,7 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
             board = Board.objects.get(pk=board_pk)
             if board.category.parent_id == 3 and board.user != self.request.user:
                 raise PermissionDenied({"detail":"이 게시글을 볼 권한이 없습니다."})
+            return board
         except Board.DoesNotExist:
             raise NotFound({"detail":"요청한 게시글이 없습니다."})
 
