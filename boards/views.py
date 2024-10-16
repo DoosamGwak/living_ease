@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import ValidationError
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
-from .filters import BoardFilter, NoticeBoardFilter
+from .filters import BoardFilter, NoticeBoardFilter, CommunityBoardFilter
 from .models import Board, NoticeBoard, Comment, Category
 from .permissions import IsStaffOrReadOnly
 from .serializers import (
@@ -29,7 +29,7 @@ def get_category(category_name):
 class CommunityListAPIView(ListCreateAPIView):
     serializer_class = CommunityListSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_class = BoardFilter
+    filterset_class = CommunityBoardFilter
     
     def get_queryset(self):
         community_category = Category.objects.get(name="community")
