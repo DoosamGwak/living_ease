@@ -2,7 +2,6 @@ from rest_framework import serializers
 from .models import User
 from .validators import (
     CustomProfileDeleteValidator,
-    OldPasswordValidator,
     PasswordValidator,
 )
 
@@ -35,6 +34,9 @@ class UserSerializer(serializers.ModelSerializer, PasswordValidator):
 
 
 class UserPofileSerializer(serializers.ModelSerializer):
+    boards = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
+
     class Meta:
         model = User
         fields = [
@@ -45,7 +47,19 @@ class UserPofileSerializer(serializers.ModelSerializer):
             "age",
             "gender",
             "joined_at",
+            "boards",
+            "comments",
         ]
+
+    def get_boards(self, obj):
+        from boards.serializers import BoardListSerializer
+        boards = obj.boards.all()
+        return BoardListSerializer(boards, many=True).data
+
+    def get_comments(self, obj):
+        from boards.serializers import CommentSerializer
+        comments = obj.comments.all()
+        return CommentSerializer(comments, many=True).data
 
 
 class UserDeleteSerializer(CustomProfileDeleteValidator, serializers.ModelSerializer):
@@ -57,7 +71,7 @@ class UserDeleteSerializer(CustomProfileDeleteValidator, serializers.ModelSerial
         fields = ["check_password", "refresh"]
 
 
-class PasswordChangeSerializer(OldPasswordValidator, serializers.ModelSerializer):
+class PasswordChangeSerializer(serializers.ModelSerializer):
     old_password = serializers.CharField(required=True, write_only=True)
     new_password = serializers.CharField(required=True, write_only=True)
     check_password = serializers.CharField(required=True, write_only=True)
