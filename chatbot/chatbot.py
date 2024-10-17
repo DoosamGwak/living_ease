@@ -11,11 +11,9 @@ store = {}
 
 # 세션 ID를 기반으로 세션 기록을 가져오는 함수
 def get_session_history(session_ids: str) -> BaseChatMessageHistory:
-    print(f"세션 ID: {session_ids}")
     if session_ids not in store:
         chat_history = ChatMessageHistory()
         # 새로운 ChatMessageHistory 객체를 생성하여 store에 저장
-        chat_history.add_ai_message("안녕하세요, 무엇을 도와드릴까요?")
         store[session_ids] = chat_history
     return store[session_ids]
 
