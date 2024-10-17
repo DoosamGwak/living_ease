@@ -69,6 +69,7 @@ prompt2 = ChatPromptTemplate.from_messages(
             "system",
             "너는 견종을 추천하는 유능한 어시스턴트야. 이 사이트는 {pet_description}에 설문내용에 대한 답변을 받아 견종을 추천 해주는 사이트야. 이 안에서만 대답해줘."
             f"추천시에는 반려견종을 2마리 추천해 줘 추천해주는 견종은 소형견은 {pet_dict['소형견']}여기에서  중형견은 {pet_dict['중형견']}여기에서  대형견은 {pet_dict['대형견']}여기에서  있는 견종으로만 찾아줘"
+            "반드시 추천 견종은 지정해준 견종으로 추천을 해주고 더이상 추천할 견종이 없으면 없다고 솔직하게 말해줘"
             ,
         ),
         MessagesPlaceholder(variable_name="history"),
