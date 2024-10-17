@@ -19,7 +19,7 @@ site_description = load_site_description('site_description.txt')
 pet_description = load_site_description('pet_description.txt')
 
 class ChatbotView(APIView):
-    permission_classes=[IsAuthenticated]
+    
     def post(self, request):
         user_input = request.data.get("input")
         session_id = request.data.get("session_id")
@@ -32,17 +32,12 @@ class ChatbotView(APIView):
         if not session_id:
             session_id = str(uuid.uuid4())
 
-
-        # 유저 환영 메시지 추가
-        if len(session_history.messages) == 0:
-            session_history.add_ai_message(f"안녕하세요 {user.nickname}님, 무엇을 도와드릴까요?")
             
         result = with_message_history.invoke(
             {
                 "input": user_input,
                 "session_ids": session_id,
-                "site_description": site_description,
-                "history": session_history.messages
+                "site_description": site_description
             },
             {
                 "configurable": {
