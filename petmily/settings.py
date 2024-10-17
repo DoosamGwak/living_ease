@@ -120,7 +120,7 @@ DATABASES = {
     }
 
 }
-DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
+DATABASES['default'] = DATABASES['server'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
