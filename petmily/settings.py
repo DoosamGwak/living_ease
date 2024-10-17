@@ -33,7 +33,7 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203", "api.petmily.info"]
 
 
 # Application definition
