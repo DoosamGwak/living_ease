@@ -59,24 +59,27 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 class CommunityCreateSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source="user.nickname", read_only=True)
     images = BoardImageSerializer(many=True, read_only=True)
+    category = serializers.CharField()
+
     class Meta:
         model = Board
-        fields = ["title", "content", "nickname","images", "category"]
-    
+        fields = ["title", "content", "nickname", "images", "category"]
+
     def create(self, validated_data):
         images_data = self.context["request"].FILES
+        category_name = validated_data.pop('category')
+        try:
+            category = Category.objects.get(name=category_name, parent__name='community')
+        except Category.DoesNotExist:
+            raise serializers.ValidationError({"detail": "해당 이름의 카테고리를 찾을 수 없습니다."})
+        validated_data['category'] = category
+        
         board = Board.objects.create(**validated_data)
+
         for image_data in images_data.getlist("image"):
             BoardImage.objects.create(board=board, image=image_data)
+            
         return board
-
-    def validate_category(self, value):
-        community_category = Category.objects.get(name="community")
-        if value.parent != community_category:
-            raise serializers.ValidationError(
-                "detail: 유효한 커뮤니티 하위 카테고리를 선택해주세요."
-            )
-        return value
 
 
 class CommentSerializer(serializers.ModelSerializer):

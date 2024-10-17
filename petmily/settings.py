@@ -50,8 +50,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
-    'corsheaders',
-    'storages',
+    "corsheaders",
+    "storages",
     "django_filters",
     # project app
     "accounts",
@@ -81,8 +81,7 @@ else:
         r"^http:\/\/petmily\.info$",
         r"^https:\/\/petmily\.info$",
     ]
-
-
+    
 ROOT_URLCONF = "petmily.urls"
 
 TEMPLATES = [
@@ -126,7 +125,7 @@ DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
-AUTHENTICATION_BACKENDS=['accounts.auth_backends.EmailBackend']
+AUTHENTICATION_BACKENDS = ["accounts.auth_backends.EmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -160,7 +159,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -216,4 +215,3 @@ DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
