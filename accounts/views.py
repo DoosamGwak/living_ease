@@ -56,6 +56,7 @@ class LoginView(APIView):
                 "access": str(refresh.access_token),
                 "email": user.email,
                 "nickname": user.nickname,
+                "pk":user.pk
             }
         )
 
@@ -80,16 +81,16 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
-    lookup_field = "nickname"
+    lookup_field = "pk"
 
     def get_serializer(self, *args, **kwargs):
         kwargs["partial"] = True
         return super(UserProfileView, self).get_serializer(*args, **kwargs)
 
     def get_object(self):
-        nickname = self.kwargs.get(self.lookup_field)
+        pk = self.kwargs.get(self.lookup_field)
         try:
-            user = self.queryset.get(nickname=nickname)
+            user = self.queryset.get(pk=pk)
 
             if not user.is_active:
                 raise PermissionDenied({"detail": "탈퇴한 계정입니다."})
