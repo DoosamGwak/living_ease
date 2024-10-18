@@ -33,7 +33,8 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "52.78.215.218", "13.125.10.203", "api.petmily.info", "petmily.info"]
+CSRF_TRUSTED_ORIGINS = ["http://api.petmily.info", "https://api.petmily.info", "http://52.78.215.218", "https://52.78.215.218"]
 
 
 # Application definition
@@ -71,17 +72,22 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+# if DEBUG:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^http:\/\/localhost:*([0-9]+)?$",
+#     ]
+# else:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^http:\/\/petmily\.info$",
+#         r"^https:\/\/petmily\.info$",
+#     ]
+#     CORS_ORIGIN_WHITELIST = [
+#         "http://petmily.info",
+#         "https://petmily.info",
+#     ]
 
-if DEBUG:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^http:\/\/localhost:*([0-9]+)?$",
-    ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        r"^http:\/\/petmily\.info$",
-        r"^https:\/\/petmily\.info$",
-    ]
-    
+CORS_ORIGIN_ALLOW_ALL=True
+
 ROOT_URLCONF = "petmily.urls"
 
 TEMPLATES = [
@@ -121,7 +127,7 @@ DATABASES = {
     }
 
 }
-DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
+DATABASES['default'] = DATABASES['server'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
