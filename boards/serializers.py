@@ -40,7 +40,7 @@ class BoardListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ["id", "title", "nickname", "profile_image", "content_snippet", "created_at", "comments"]
+        fields = ["id", "title", "nickname", "profile_image", "content_snippet", "created_at", "comments", "content"]
 
     def get_fields(self):
         fields = super().get_fields()
@@ -57,13 +57,15 @@ class BoardListSerializer(serializers.ModelSerializer):
                 # "nickname", "title", "created_at", "profile_image" 사용
                 fields.pop("content_snippet")
                 fields.pop("comments")
+                fields.pop("content")  # content 필드 제거
             elif category_name in ["vaccine", "training", "healthyfood", "supplies"]:
                 # "title", "content_snippet", "created_at" 사용
                 fields.pop("nickname")
                 fields.pop("profile_image")
                 fields.pop("comments")
+                fields.pop("content")  # content 필드 제거
             elif category_name in ["faq", "howtouse", "directmsg"]:
-                # "title", "content", "created_at" 사용
+                # "title", "content", "created_at", "content" 사용
                 fields.pop("nickname")
                 fields.pop("profile_image")
                 fields.pop("content_snippet")
@@ -90,11 +92,10 @@ class CommunityListSerializer(serializers.ModelSerializer):
 
 
 class NoticeListSerializer(serializers.ModelSerializer):
-    nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = NoticeBoard
-        fields = ["id", "title", "nickname", "created_at"]
+        fields = ["id", "title", "content", "created_at"]
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):
