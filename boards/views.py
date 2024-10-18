@@ -278,7 +278,7 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
         board_pk = self.kwargs.get("board_pk")
         try:
             board = Board.objects.get(pk=board_pk)
-            if board.category.parent_id == 3 and board.user != self.request.user:
+            if board.category.pk == 14 and board.user != self.request.user:
                 raise PermissionDenied({"detail":"이 게시글을 볼 권한이 없습니다."})
             return board
         except Board.DoesNotExist:
