@@ -6,8 +6,6 @@ from .chatbot import with_message_history, with_message_history2
 import uuid
 import os
 from django.conf import settings
-from langchain.memory.buffer import ConversationBufferMemory
-
 
 
 # 파일에서 사이트 설명을 불러오는 함수
