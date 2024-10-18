@@ -81,6 +81,10 @@ else:
         r"^http:\/\/petmily\.info$",
         r"^https:\/\/petmily\.info$",
     ]
+    CORS_ORIGIN_WHITELIST = [
+        "http://petmily.info",
+        "https://petmily.info",
+    ]
 
 ROOT_URLCONF = "petmily.urls"
 
