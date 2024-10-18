@@ -36,6 +36,7 @@ DEBUG = env("DEBUG")
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", "52.78.215.218", "13.125.10.203", "api.petmily.info", "petmily.info"]
 CSRF_TRUSTED_ORIGINS = ["http://api.petmily.info", "https://api.petmily.info", "http://52.78.215.218", "https://52.78.215.218"]
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -120,7 +121,7 @@ DATABASES = {
     }
 
 }
-DATABASES['default'] = DATABASES['dev'] if DEBUG else DATABASES['server']
+DATABASES['default'] = DATABASES['server'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
