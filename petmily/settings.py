@@ -15,7 +15,6 @@ from datetime import timedelta
 import os
 import environ
 
-
 env = environ.Env(DEBUG=(bool, False))
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -28,11 +27,14 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
+OPENAI_API_KEY = env("GPT_SECRET_KEY")
+DATA_API_KEY = env("DATA_API_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "52.78.215.218", "13.125.10.203", "api.petmily.info", "petmily.info"]
+CSRF_TRUSTED_ORIGINS = ["http://api.petmily.info", "https://api.petmily.info", "http://52.78.215.218", "https://52.78.215.218"]
 
 
 # Application definition
@@ -49,11 +51,18 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "rest_framework_simplejwt.token_blacklist",
+    "corsheaders",
+    "storages",
+    "django_filters",
     # project app
     "accounts",
+    "pets",
+    "boards",
+    "chatbot",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -62,6 +71,16 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+if DEBUG:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/localhost:*([0-9]+)?$",
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^http:\/\/petmily\.info$",
+        r"^https:\/\/petmily\.info$",
+    ]
 
 ROOT_URLCONF = "petmily.urls"
 
@@ -88,14 +107,25 @@ WSGI_APPLICATION = "petmily.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
+    },
+    "server":{
+        "ENGINE": env("DB_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER" : env("DB_USER"),
+        "PASSWORD" : env("DB_PSSWORD"),
+        "HOST":env("DB_HOST"),
+        "PORT":env("DB_PORT")
     }
+
 }
+DATABASES['default'] = DATABASES['server'] if DEBUG else DATABASES['server']
 
 
 AUTH_USER_MODEL = "accounts.User"
+AUTHENTICATION_BACKENDS = ["accounts.auth_backends.EmailBackend"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -121,7 +151,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
+        "rest_framework.permissions.IsAuthenticatedOrReadOnly"
     ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     # 'PAGE_SIZE': 3,
@@ -129,7 +159,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
@@ -149,16 +179,37 @@ USE_I18N = True
 USE_TZ = True
 
 
+# AWS Setting
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 생성한 버킷 이름
+AWS_REGION = env("AWS_REGION")  # AWS서버의 지역
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")  # 액서스 키 PW
+
+# 버킷이름.s3.AWS서버지역.amazonaws.com 형식
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static"]
-STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# Media files
-MEDIA_URL = "/media/"
-MEDIA_ROOT = BASE_DIR / "media"
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")  # 생성한 버킷 이름
+AWS_REGION = env("AWS_REGION")  # AWS서버의 지역
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")  # 액서스 키 PW
+
+# 버킷이름.s3.AWS서버지역.amazonaws.com 형식
+AWS_S3_CUSTOM_DOMAIN = "%s.s3.%s.amazonaws.com" % (AWS_STORAGE_BUCKET_NAME, AWS_REGION)
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
+
+# Static Setting
+STATIC_URL = "/static/"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+# Media Setting
+
+MEDIA_URL = "/meida/"
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
