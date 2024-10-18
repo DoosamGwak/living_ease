@@ -33,8 +33,8 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "52.78.215.218", "13.125.10.203", "api.petmily.info", "petmily.info"]
-CSRF_TRUSTED_ORIGINS = ["http://api.petmily.info", "https://api.petmily.info", "http://52.78.215.218", "https://52.78.215.218"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "54.180.137.0", "13.125.10.203", "api.petmily.info", "petmily.info"]
+CSRF_TRUSTED_ORIGINS = ["http://api.petmily.info", "https://api.petmily.info", "http://54.180.137.0", "https://54.180.137.0"]
 
 
 # Application definition
