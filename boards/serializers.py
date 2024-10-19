@@ -63,22 +63,26 @@ class CommunityCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ["title", "content", "nickname", "images", "category"]
+        fields = ["pk", "title", "content", "nickname", "images", "category"]
 
     def create(self, validated_data):
         images_data = self.context["request"].FILES
-        category_name = validated_data.pop('category')
+        category_name = validated_data.pop("category")
         try:
-            category = Category.objects.get(name=category_name, parent__name='community')
+            category = Category.objects.get(
+                name=category_name, parent__name="community"
+            )
         except Category.DoesNotExist:
-            raise serializers.ValidationError({"detail": "해당 이름의 카테고리를 찾을 수 없습니다."})
-        validated_data['category'] = category
-        
+            raise serializers.ValidationError(
+                {"detail": "해당 이름의 카테고리를 찾을 수 없습니다."}
+            )
+        validated_data["category"] = category
+
         board = Board.objects.create(**validated_data)
 
         for image_data in images_data.getlist("image"):
             BoardImage.objects.create(board=board, image=image_data)
-            
+
         return board
 
 
