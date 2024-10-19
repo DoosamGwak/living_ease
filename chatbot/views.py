@@ -1,11 +1,13 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+
+from rest_framework.permissions import IsAuthenticated
+from .chatbot import with_message_history
 from .chatbot import with_message_history
 import uuid
 import os
 from django.conf import settings
-
 
 
 # 파일에서 사이트 설명을 불러오는 함수
@@ -19,6 +21,8 @@ site_description = load_site_description('site_description.txt')
 pet_description = load_site_description('pet_description.txt')
 
 class ChatbotView(APIView):
+    permission_classes=[IsAuthenticated]
+
     
     def post(self, request):
         user_input = request.data.get("input")
@@ -31,8 +35,6 @@ class ChatbotView(APIView):
         # 세션 ID를 자동으로 생성하여 사용 (UUID4 형식)
         if not session_id:
             session_id = str(uuid.uuid4())
-
-            
         result = with_message_history.invoke(
             {
                 "input": user_input,
@@ -82,5 +84,5 @@ class ChatbotView(APIView):
 
 #         # AI의 응답과 세션 ID를 반환, 200 OK 상태 코드와 함께 전송
 #         return Response({"response": result.content, "session_id": session_id}, status=status.HTTP_200_OK)
-    
+
 

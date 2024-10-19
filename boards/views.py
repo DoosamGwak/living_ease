@@ -277,7 +277,9 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
         try:
             board = Board.objects.get(pk=board_pk)
             if board.category.pk == 14 and board.user != self.request.user:
-                raise PermissionDenied({"detail": "이 게시글을 볼 권한이 없습니다."})
+
+                raise PermissionDenied({"detail":"이 게시글을 볼 권한이 없습니다."})
+
             return board
         except Board.DoesNotExist:
             raise NotFound({"detail": "요청한 게시글이 없습니다."})

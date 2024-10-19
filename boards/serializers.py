@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from django.db.models import QuerySet
 from .models import Board, NoticeBoard, BoardImage, Comment, Category
 
 
@@ -8,20 +9,78 @@ class BoardImageSerializer(serializers.ModelSerializer):
         fields = ["id", "image"]
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(source="user.nickname", read_only=True)
+
+    class Meta:
+        model = Comment
+        fields = ["id", "content", "nickname", "created_at", "updated_at"]
+        read_only_fields = ["board"]
+
+
+# class BoardListSerializer(serializers.ModelSerializer):
+#     nickname = serializers.CharField(source="user.nickname", read_only=True)
+#     content_snippet = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = Board
+#         fields = ["id", "title", "content_snippet", "nickname", "created_at"]
+
+#     def get_content_snippet(self, obj):
+#         specific_categories = ["vaccine", "training", " healthyfood", "supplies"]
+#         if obj.category.name in specific_categories:
+#             return " ".join(obj.content.split()[:30]) + "..." if obj.content else ""
+#         return obj.content
+
 class BoardListSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source="user.nickname", read_only=True)
+    profile_image = serializers.ImageField(source="user.profile_image", read_only=True)
     content_snippet = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     class Meta:
         model = Board
-        fields = ["id", "title", "content_snippet", "nickname", "created_at"]
+        fields = ["id", "title", "nickname", "profile_image", "content_snippet", "created_at", "comments", "content"]
+
+    def get_fields(self):
+        fields = super().get_fields()
+
+        if isinstance(self.instance, list) or isinstance(self.instance, QuerySet):
+            instance = self.instance[0] if self.instance else None
+        else:
+            instance = self.instance
+
+        if instance:
+            category_name = instance.category.name
+
+            if category_name in ["walkingmate", "tip", "etc"]:
+                # "nickname", "title", "created_at", "profile_image" 사용
+                fields.pop("content_snippet")
+                fields.pop("comments")
+                fields.pop("content")  # content 필드 제거
+            elif category_name in ["vaccine", "training", "healthyfood", "supplies"]:
+                # "title", "content_snippet", "created_at" 사용
+                fields.pop("nickname")
+                fields.pop("profile_image")
+                fields.pop("comments")
+                fields.pop("content")  # content 필드 제거
+            elif category_name in ["faq", "howtouse", "directmsg"]:
+                # "title", "content", "created_at", "content" 사용
+                fields.pop("nickname")
+                fields.pop("profile_image")
+                fields.pop("content_snippet")
+                if category_name != "directmsg":
+                    fields.pop("comments")
+
+        return fields
 
     def get_content_snippet(self, obj):
-        specific_categories = ["faq", "howtouse", "directmsg"]
-        if obj.category.name in specific_categories:
-            return " ".join(obj.content.split()[:30]) + "..." if obj.content else ""
-        return obj.content
+        return " ".join(obj.content.split()[:20]) + "..." if obj.content else ""
 
+    def get_comments(self, obj):
+        if obj.category.name == "directmsg":
+            return CommentSerializer(obj.comments.all(), many=True).data
+        return None
 
 class CommunityListSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source="user.nickname", read_only=True)
@@ -33,11 +92,10 @@ class CommunityListSerializer(serializers.ModelSerializer):
 
 
 class NoticeListSerializer(serializers.ModelSerializer):
-    nickname = serializers.CharField(source="user.nickname", read_only=True)
 
     class Meta:
         model = NoticeBoard
-        fields = ["id", "title", "nickname", "created_at"]
+        fields = ["id", "title", "content", "created_at"]
 
 
 class BoardCreateSerializer(serializers.ModelSerializer):

@@ -20,6 +20,7 @@ for pet_info in pet_infos:
 # 세션 ID를 기반으로 세션 기록을 가져오는 함수
 def get_session_history(session_ids: str) -> BaseChatMessageHistory:
 
+
     """
     주어진 세션 ID에 대한 대화 기록을 가져옴.
     세션 기록이 없으면 새롭게 생성하고 기본 메시지를 추가.
@@ -31,6 +32,7 @@ def get_session_history(session_ids: str) -> BaseChatMessageHistory:
         chat_history.add_ai_message("안녕하세요, 무엇을 도와드릴까요?")
         store[session_ids] = chat_history  # 새 대화 기록을 store에 세션 ID와 함께 저장
     return store[session_ids]  # 해당 세션 ID의 대화 기록 반환
+
 
 
 # OpenAI의 GPT 모델을 설정하는 객체, temperature는 모델의 응답의 창의성을 결정 (0.7은 적당한 창의성)
