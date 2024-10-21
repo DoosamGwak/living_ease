@@ -104,7 +104,7 @@ class BoardCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Board
-        fields = ["title", "content", "nickname", "images"]
+        fields = ["pk", "title", "content", "nickname", "images"]
 
     def create(self, validated_data):
         images_data = self.context["request"].FILES
