@@ -30,6 +30,7 @@ urlpatterns = [
     path("api/v1/accounts/", include("accounts.urls")),
     path("api/v1/pets/", include("pets.urls")),
     path("api/v1/boards/", include("boards.urls")),
+<<<<<<< HEAD
     # for social-login
     path("api/v1/auth/", include("dj_rest_auth.urls")),
     re_path(r"^api/v1/auth/accounts/", include("allauth.urls")),
@@ -40,6 +41,9 @@ urlpatterns = [
     #     GoogleLoginCallback.as_view(),
     #     name="google_login_callback",
     # ),
+=======
+    path("api/v1/chatbot/",include("chatbot.urls")),
+>>>>>>> dev
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

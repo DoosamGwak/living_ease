@@ -27,7 +27,7 @@ class Choice(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.QID
+        return self.QID.title
 
 
 class Answer(models.Model):
@@ -41,7 +41,7 @@ class Answer(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.UID
+        return self.UID.email
 
 
 class PetCategory(models.Model):
@@ -74,7 +74,7 @@ class AIHistory(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.UID
+        return self.UID.email
 
 
 class PetWikiImage(models.Model):
@@ -85,4 +85,4 @@ class PetWikiImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.PID
+        return self.PID.name

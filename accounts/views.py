@@ -66,6 +66,7 @@ class LoginView(APIView):
                 "access": str(refresh.access_token),
                 "email": user.email,
                 "nickname": user.nickname,
+                "pk":user.pk
             }
         )
 
@@ -90,16 +91,16 @@ class LogoutView(APIView):
 class UserProfileView(RetrieveUpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserPofileSerializer
-    lookup_field = "nickname"
+    lookup_field = "pk"
 
     def get_serializer(self, *args, **kwargs):
         kwargs["partial"] = True
         return super(UserProfileView, self).get_serializer(*args, **kwargs)
 
     def get_object(self):
-        nickname = self.kwargs.get(self.lookup_field)
+        pk = self.kwargs.get(self.lookup_field)
         try:
-            user = self.queryset.get(nickname=nickname)
+            user = self.queryset.get(pk=pk)
 
             if not user.is_active:
                 raise PermissionDenied({"detail": "탈퇴한 계정입니다."})
@@ -143,18 +144,29 @@ class ChangePasswordView(UpdateAPIView):
         serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
+            old_password = serializer.validated_data["old_password"]
             new_password = serializer.validated_data["new_password"]
-            check_pasword = serializer.validated_data["check_password"]
+            check_password = serializer.validated_data["check_password"]
             user = request.user
-            if new_password == check_pasword:
-                user.set_password(new_password)
-                user.save()
+            if not user.check_password(old_password):
                 return Response(
-                    {"detail": "비밀번호가 변경되었습니다"}, status=status.HTTP_200_OK
+                    {"detail": "기존 비밀번호가 일치하지 않습니다."},
+                    status=status.HTTP_400_BAD_REQUEST,
                 )
+            if old_password == new_password:
+                return Response(
+                    {"detail": "기존의 비밀번호와 동일한 비밀번호입니다."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            if new_password != check_password:
+                return Response(
+                    {"detail": "새 비밀번호와 비밀번호 확인이 일치하지 않습니다."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            user.set_password(new_password)
+            user.save()
             return Response(
-                {"detail": "비밀번호가 일치하지 않습니다"},
-                status=status.HTTP_400_BAD_REQUEST,
+                {"detail": "비밀번호가 변경되었습니다"}, status=status.HTTP_200_OK
             )
         return Response(
             {"detail": "비밀번호변경에 실패하였습니다"},

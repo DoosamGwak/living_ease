@@ -33,7 +33,20 @@ DATA_API_KEY = env("DATA_API_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "3.38.151.43", "13.125.10.203"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "54.180.137.0",
+    "13.125.10.203",
+    "api.petmily.info",
+    "petmily.info",
+]
+CSRF_TRUSTED_ORIGINS = [
+    "http://api.petmily.info",
+    "https://api.petmily.info",
+    "http://54.180.137.0",
+    "https://54.180.137.0",
+]
 
 
 # Application definition
@@ -65,6 +78,7 @@ INSTALLED_APPS = [
     "accounts",
     "pets",
     "boards",
+    "chatbot",
 ]
 
 MIDDLEWARE = [
@@ -80,6 +94,7 @@ MIDDLEWARE = [
     "allauth.account.middleware.AccountMiddleware",
 ]
 
+
 # for social-login
 # django.contrib.sites
 SITE_ID = 1
@@ -92,11 +107,22 @@ REST_AUTH = {
     "REGISTER_SERIALIZER": "accounts.serializers.UserRegisterSerializer",
 }
 
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http:\/\/localhost:*([0-9]+)?$",
-    r"^http:\/\/13.125.10.203.*",
-]
+# if DEBUG:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^http:\/\/localhost:*([0-9]+)?$",
+#     ]
+# else:
+#     CORS_ALLOWED_ORIGIN_REGEXES = [
+#         r"^http:\/\/petmily\.info$",
+#         r"^https:\/\/petmily\.info$",
+#     ]
+#     CORS_ORIGIN_WHITELIST = [
+#         "http://petmily.info",
+#         "https://petmily.info",
+#     ]
 
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = "petmily.urls"
 
@@ -123,11 +149,20 @@ WSGI_APPLICATION = "petmily.wsgi.application"
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    "default": {
+    "dev": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": BASE_DIR / "db.sqlite3",
-    }
+    },
+    "server": {
+        "ENGINE": env("DB_ENGINE"),
+        "NAME": env("DB_NAME"),
+        "USER": env("DB_USER"),
+        "PASSWORD": env("DB_PSSWORD"),
+        "HOST": env("DB_HOST"),
+        "PORT": env("DB_PORT"),
+    },
 }
+DATABASES["default"] = DATABASES["dev"] if DEBUG else DATABASES["server"]
 
 
 AUTH_USER_MODEL = "accounts.User"
@@ -192,7 +227,7 @@ REST_FRAMEWORK = {
 
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
