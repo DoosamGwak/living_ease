@@ -61,6 +61,10 @@
    - 제목 검색
    - 내용 검색
 
+  - 챗봇
+    - 사이트 안내 챗봇
+    - 반려동물 추천 챗봇
+
   - 위치서비스(예정)
     - 동물병원 추천 서비스
     - 산책로 추천 서비스
@@ -86,8 +90,10 @@
     - 반려동물 정보 업데이트: 09.30~10.04
     - 질문 내역 리스트 등록: 09.26
     - 공공데이터 연동:09.30
+  - 사이트 안내 챗봇 : 정순겸(10.12 ~ 10.15)
+  - 반려동물 추천 챗봇 : 서영환(10.18)
   - 사이트 전체적인 디자인 & 퍼블리싱: 김민주(09.25~ )
-  - 사이트 프론트앤드: 이승주(09.25 ~)
+  - 사이트 프론트앤드(https://github.com/DoosamGwak/living_ease_front): 이승주(09.25 ~)
 
   <br/>
 
@@ -103,7 +109,9 @@
   <br/>
 
 ## ERD
+![img](docs/livingease.drawio.png)
   - https://drive.google.com/file/d/1Szog6Wzq7f-LkayrjAXwhTsRMK6ynktA/view?usp=sharing
+  
 
 
 
@@ -114,8 +122,8 @@
 |-----------------------|-------------------------------------|------------|-----------------------------------|
 | **유저**              | `/api/v1/accounts/login/`               | POST       | 로그인                           |
 |                       | `/api/v1/accounts/logout/`              | POST       | 로그아웃                         |
-|                       | `/api/v1/accounts/<str:nickname>/`             | GET        | 프로필 조회                      |
-|                       | `/api/v1/accounts/<str:nickname>/`             | PUT        | 프로필 수정                      |
+|                       | `/api/v1/accounts/<int:pk>/`             | GET        | 프로필 조회                      |
+|                       | `/api/v1/accounts/<int:pk>/`             | PUT        | 프로필 수정                      |
 |                       | `/api/v1/accounts/signup/`            | POST       | 회원 가입                        |
 |                       | `/api/v1/accounts/delete/`              | PUT     | 회원 탈퇴                        |
 |                       | `/api/v1/accounts/refresh/`              | POST     | 토큰 재발급                        |
@@ -155,3 +163,4 @@
 |                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | PUT        | 댓글 수정               |
 |                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | DELETE     | 댓글 삭제               |
 |                       | `/api/v1/boards/{int:board_pk}/comments/`             | GET     | 댓글 조회               |
+| **챗봇**              | `/api/v1/chabot/`                  | POST       | 사이트안내 및 반려동물(반려견) 추천 봇               |
