@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Question, Choice
+from .models import Question, Choice, AIHistory
 
 
 class ChoiceSerializer(serializers.ModelSerializer):
@@ -28,3 +28,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ("pk", "type", "title", "content", "content_type", "answer")
+
+
+class AIHistorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AIHistory
+        fields = ("UID", "question", "answer")
