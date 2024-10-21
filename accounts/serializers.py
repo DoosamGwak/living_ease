@@ -86,16 +86,3 @@ class PasswordChangeSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["old_password", "new_password", "check_password"]
-
-
-class UserRegisterSerializer(DefaultRegisterSerializer):
-    nickname = serializers.CharField(max_length=50, write_only=True, required=True)
-
-    def custom_signup(self, request, user):
-        random = "".join(
-            (random.choice(string.ascii_letters + string.digits) for i in range(8))
-        )
-        nickname = self.validated_data.pop("name") + random
-        if nickname:
-            user.nickname = nickname
-            user.save()

@@ -41,13 +41,8 @@ class User(AbstractUser):
 
     GENDER_CHOICES = (("M", "Male"), ("F", "Female"))
     email = models.EmailField(unique=True)
-<<<<<<< HEAD
-    nickname = models.CharField(max_length=20, unique=True)
-    name = models.CharField(max_length=15, blank=True)
-=======
     nickname = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=20, blank=True)
->>>>>>> dev
     age = models.IntegerField(null=True, blank=True)
     gender = models.CharField(
         max_length=1, choices=GENDER_CHOICES, default="N", blank=True
