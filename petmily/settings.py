@@ -89,6 +89,7 @@ GOOGLE_OAUTH_CALLBACK_URL = env("GOOGLE_OAUTH_CALLBACK_URL")
 REST_AUTH = {
     "USE_JWT": True,
     "JWT_AUTH_HTTPONLY": False,
+    "REGISTER_SERIALIZER": "accounts.serializers.UserRegisterSerializer",
 }
 
 CORS_ALLOWED_ORIGIN_REGEXES = [
