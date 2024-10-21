@@ -288,6 +288,7 @@ class BoardDetailAPIView(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         if instance.user != self.request.user:
             raise PermissionDenied({"detail": "이 게시글을 수정할 권한이 없습니다."})
+        serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
@@ -315,6 +316,7 @@ class NoticeDetailAPIView(RetrieveUpdateDestroyAPIView):
         instance = self.get_object()
         if instance.user != self.request.user:
             raise PermissionDenied({"detail": "이 공지사항을 수정할 권한이 없습니다."})
+        serializer.save()
 
     def perform_destroy(self, instance):
         if instance.user != self.request.user:
