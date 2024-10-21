@@ -1,29 +1,29 @@
 우리 사이트 'PETMILY'는 AI를 통해 사용자에게 반려동물을 추천을 해주는 사이트이고, 반려동물을 가족의 일원으로
 받아들이기 위한 준비와, 첫 발검을을 도와주 위한 도우미가 되고자 해. 그리고 다음과 같은 서비스를 제공해.
 
-회원가입 페이지(경로: <https://petmily.info/accounts/signup/>)는 "이메일", "비밀번호", "닉네임"을 필수로 입력해야 가입할 수 있어. "닉네임"은 사이트를 이용하는 동안 유저가 쓰게 될 이름이 될거야.
+회원가입 페이지(경로: https://petmily.info/accounts/signup/)는 "이메일", "비밀번호", "닉네임"을 필수로 입력해야 가입할 수 있어. "닉네임"은 사이트를 이용하는 동안 유저가 쓰게 될 이름이 될거야.
 
-로그인 페이지(경로: <https://petmily.info/accounts/login/>)는 회원가입할 때 등록한 "이메일"과 "비밀번호"로 로그인이 가능해. 구글계정이 있다면 그 계정을 이용해서 로그인할 수도 있어. 
+로그인 페이지(경로: https://petmily.info/accounts/login/)는 회원가입할 때 등록한 "이메일"과 "비밀번호"로 로그인이 가능해. 구글계정이 있다면 그 계정을 이용해서 로그인할 수도 있어. 
 
-프로필 페이지(경로: <https://petmily.info/accounts/profile/<int:pk>/>)(여기서 <int:pk>은 user의 primary key가 들어가야해)는 유저 본인에 대한 정보(성별, 이름, 나이)를 더 담을 수 있어. 유저의 프로필사진도 업로드가 가능해. 그리고 프로필관리를 통해
+프로필 페이지(경로: https://petmily.info/accounts/profile/<int:pk>/)(여기서 <int:pk>은 user의 primary key가 들어가야해)는 유저 본인에 대한 정보(성별, 이름, 나이)를 더 담을 수 있어. 유저의 프로필사진도 업로드가 가능해. 그리고 프로필관리를 통해
 
 내 정보를 수정하거나 비밀번호를 변경할 수도 있어. 프로필 페이지에서는 로그아웃, 회원탈퇴 기능도 이용할 수 있어.
 
 게시판 페이지는 크게 3가지 분류 안에서 3,4개씩 별도의 게시판으로 나누어져 있어.
 1. 커뮤니티. 
-커뮤니티'에는 산책 메이트 찾기(경로: <https://petmily.info/boards/community/walkingmate/>), 꿀팁 공유(경로: <https://petmily.info/boards/community/tip/>), 
-기타 게시판(경로: <https://petmily.info/boards/community/etc/>)이 있어. 유저들이 글을 작성하고, 댓글을 달며 서로 소통할 수 있는 공간이야.
+커뮤니티'에는 산책 메이트 찾기(경로: https://petmily.info/boards/community/walkingmate/), 꿀팁 공유(경로: https://petmily.info/boards/community/tip/), 
+기타 게시판(경로: https://petmily.info/boards/community/etc/)이 있어. 유저들이 글을 작성하고, 댓글을 달며 서로 소통할 수 있는 공간이야.
 커뮤니티페이지를 이용해 여러 사람들과 의견을 나눌 수 있는데, 커뮤니티게시판 안에 있는 산책메이트찾기 게시판을 이용해 지역별 산책친구를 찾을 수도 있고,
 꿀팁 공유 게시판을 통해 여러 유용한 정보를 공유할 수 있고, 기타 게시판을 이용해 그 외의 의견으르 나누고 공유할 수 있어.
 
 2. 정보. 
-'정보'에는 예방접종(경로: <https://petmily.info/boards/info/vaccine/>), 훈련법(경로: <https://petmily.info/boards/info/training/>), 건강식단(경로: <https://petmily.info/boards/info/healthyfood/>), 
-용품 게시판(경로: <https://petmily.info/boards/info/supplies/>)이 있어.
+'정보'에는 예방접종(경로: https://petmily.info/boards/info/vaccine/), 훈련법(경로: https://petmily.info/boards/info/training/), 건강식단(경로: https://petmily.info/boards/info/healthyfood/), 
+용품 게시판(경로: https://petmily.info/boards/info/supplies/)이 있어.
 정보페이지 안에 있는 훈련법 게시판을 이용해 훈련 정보, 건강식단 게시판을 이용해 건강한 음식 관리 정보, 용픔 게시판을 이용해 애견용품에 관한 정보 등을 얻을 수 있어.
 
 3. 고객지원. 
-'고객지원'에는 공지사항(경로: <https://petmily.info/boards/support/notice/>), 공통FAQ(경로: <https://petmily.info/boards/support/faq/>), 홈페이지 이용방법(경로: <https://petmily.info/boards/support/howtouse/>), 
-1:1문의(경로: <https://petmily.info/boards/support/directmsg/>)가 있어.
+'고객지원'에는 공지사항(경로: https://petmily.info/boards/support/notice/), 공통FAQ(경로: https://petmily.info/boards/support/faq/), 홈페이지 이용방법(경로: https://petmily.info/boards/support/howtouse/), 
+1:1문의(경로: https://petmily.info/boards/support/directmsg/)가 있어.
 고객지원페이지 안에 있는 공지사항 게시판을 통해 사이트의 공지에 대해 확인할 수 있고, 문의사항 게시판을 통해 흔한 문의사항들에 대한 답변을 확인할 수 있고,
 홈페이지 이용방법 게시판을 통해 이용방법을 알 수 있고, 1:1 문의 게시판을 통해 관리자에게 필요한 문의를 직접 할 수 있어.
 
