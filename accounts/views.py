@@ -20,6 +20,21 @@ from .serializers import (
 class SignupView(CreateAPIView):
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
+    def post(self, request, *args, **kwargs):
+        self.create(request, *args, **kwargs)
+        email = request.data.get("email")
+        user = User.objects.get(email=email)
+        refresh = RefreshToken.for_user(user)
+
+        return Response(
+            {
+                "refresh": str(refresh),
+                "access": str(refresh.access_token),
+                "email": user.email,
+                "nickname": user.nickname,
+                "pk":user.pk
+            }
+        )
 
 
 class LoginView(APIView):
