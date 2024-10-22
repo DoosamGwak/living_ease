@@ -7,7 +7,7 @@ class PasswordValidator:
     def validate_password_check(self, password, password2):
         if password != password2:
             raise ValidationError(
-                {"msg": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
+                {"detail": "비밀번호가 일치하지 않습니다. 다시 입력해주세요."}
             )
 
 
