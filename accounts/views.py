@@ -119,6 +119,9 @@ class UserProfileView(RetrieveUpdateAPIView):
         if request.user != user:
             raise PermissionDenied({"detail": "자신의 프로필만 수정할 수 있습니다."})
         return super().update(request, *args, **kwargs)
+    
+    def perform_update(self, serializer):
+        serializer.save()
 
 
 class UserDeleteView(UpdateAPIView):
