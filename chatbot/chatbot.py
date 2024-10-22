@@ -36,7 +36,7 @@ def get_session_history(session_ids: str) -> BaseChatMessageHistory:
 
 
 # OpenAI의 GPT 모델을 설정하는 객체, temperature는 모델의 응답의 창의성을 결정 (0.7은 적당한 창의성)
-model = ChatOpenAI(temperature=0.7,model="gpt-4o-mini", openai_api_key=settings.OPENAI_API_KEY)
+model = ChatOpenAI(temperature=0.4,model="gpt-4o-mini", openai_api_key=settings.OPENAI_API_KEY)
 
 prompt = ChatPromptTemplate.from_messages(
     [
