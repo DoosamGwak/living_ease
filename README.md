@@ -163,4 +163,4 @@
 |                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | PUT        | 댓글 수정               |
 |                       | `/api/v1/boards/{int:board_pk}/comments/{int:comment_pk}/`             | DELETE     | 댓글 삭제               |
 |                       | `/api/v1/boards/{int:board_pk}/comments/`             | GET     | 댓글 조회               |
-| **챗봇**              | `/api/v1/chabot/`                  | POST       | 사이트안내 및 반려동물(반려견) 추천 봇               |
+| **챗봇**              | `/api/v1/chatbot/`                  | POST       | 사이트안내 및 반려동물(반려견) 추천 봇               |
