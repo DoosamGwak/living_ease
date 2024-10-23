@@ -31,6 +31,7 @@ def get_session_history(session_ids: str) -> BaseChatMessageHistory:
         # 새롭게 생성한 대화 기록에 AI의 기본 환영 메시지를 추가
         chat_history.add_ai_message("안녕하세요, 무엇을 도와드릴까요?")
         store[session_ids] = chat_history  # 새 대화 기록을 store에 세션 ID와 함께 저장
+    print(f"기존 대화 기록: {store[session_ids].messages}")
     return store[session_ids]  # 해당 세션 ID의 대화 기록 반환
 
 
