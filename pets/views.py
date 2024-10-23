@@ -37,7 +37,7 @@ class MetchingCenter(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        response = center_recommendation(request.data)
+        response = center_recommendation(request.GET)
         if response.get("detail"):
             return Response(response, status=400)
         return Response(response)

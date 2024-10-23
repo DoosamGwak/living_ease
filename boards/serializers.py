@@ -167,6 +167,7 @@ class BoardDetailSerializer(serializers.ModelSerializer):
             "title",
             "content",
             "nickname",
+            "created_at",
             "comments_count",
             "comments",
             "images",
